@@ -111,6 +111,7 @@ class HTMLTemplateFacturaVentaRapidaCore extends HTMLTemplate
         }
 
         $customer = new Customer((int)$this->order->id_customer);
+        $colaborador = new Customer((int)$this->order->id_colaborador);
 
         $this->context = Context::getContext();
 //        d($address_supplier);
@@ -150,6 +151,7 @@ class HTMLTemplateFacturaVentaRapidaCore extends HTMLTemplate
             'tipo_dispositivo' => Tools::getValue('tipo_dispositivo'),
             'address_shop' => $address_shop,
             'logo' => $logo,
+            'colaborador' => $colaborador,
         );
 
         if (Tools::getValue('debug')) {

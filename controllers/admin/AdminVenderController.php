@@ -78,6 +78,8 @@ class AdminVenderControllerCore extends AdminController {
 //        d($numeracion_doc_boleta);
 
        $colaboradores = Employee::getColaboradores();
+       $productos = $this->getProductos();
+
 
        $detect = new Mobile_Detect;
        $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
@@ -88,6 +90,7 @@ class AdminVenderControllerCore extends AdminController {
            'existeCajasAbiertas' => $this->existeCajasAbiertas,
            'existeCertificado' => $exist_cert,
            'colaboradores' => $colaboradores,
+           'productos' => $productos,
 
         ));
 
@@ -1244,6 +1247,52 @@ class AdminVenderControllerCore extends AdminController {
             'order' => $order
         )));
 
+    }
+
+    protected static function getProductos(){
+
+        $context = Context::getContext();
+
+        $sql = 'SELECT p.id_product as id,
+       pl.name      as text,
+       p.`id_product`,
+       pl.`name`,
+       p.`ean13`,
+       p.`isbn`,
+       p.`upc`,
+       p.`active`,
+       p.`reference`,
+       stock.`quantity`,
+       p.is_virtual
+		FROM `'._DB_PREFIX_.'product` p
+		'.Shop::addSqlAssociation('product', 'p').'
+		LEFT JOIN `'._DB_PREFIX_.'product_lang` pl ON (pl.id_product = p.id_product AND pl.id_lang = '.(int)$context->language->id.Shop::addSqlRestrictionOnLang('pl').')
+		'.Product::sqlStock('p', 0).'
+         GROUP BY p.id_product';
+
+        $items = Db::getInstance()->executeS($sql);
+
+        if ($items) {
+
+            $results_array = array();
+            foreach ($items as $row) {
+
+                $row['price_tax_incl'] = Product::getPriceStatic($row['id_product'], true, null, 2);
+                $row['price_tax_excl'] = Product::getPriceStatic($row['id_product'], false, null, 2);
+                $row['formatted_price'] = Tools::displayPrice(Tools::convertPrice($row['price_tax_incl'], Context::getContext()->currency), Context::getContext()->currency);
+                $results_array[] = $row;
+            }
+
+            $to_return = array(
+                'products' => $results_array,
+                'found' => true
+            );
+
+            return $results_array;
+        }
+        else {
+            return [];
+        }
     }
 
 }

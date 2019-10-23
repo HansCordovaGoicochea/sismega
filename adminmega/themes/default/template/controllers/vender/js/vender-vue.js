@@ -95,6 +95,141 @@ Vue.component('select2-basic', {
     }
 });
 
+Vue.component('select2-products', {
+    props: ['options', 'value'],
+    template: ' <select><slot></slot></select>',
+    mounted: function () {
+        var vm = this
+        $(this.$el)
+        // init select2
+            .select2({
+                allowClear: true,
+                placeholder :'Seleccione Producto/Servicio',
+                data: this.options,
+                templateResult: vm.templateResult,
+                templateSelection: vm.formatSelection,
+                language: {
+                    errorLoading: function () {
+                        return "La carga falló"
+                    }, inputTooLong: function (e) {
+                        var t = e.input.length - e.maximum, n = "Por favor, elimine " + t + " car";
+                        return t == 1 ? n += "ácter" : n += "acteres", n
+                    }, inputTooShort: function (e) {
+                        var t = e.minimum - e.input.length, n = "Por favor, introduzca " + t + " car";
+                        return t == 1 ? n += "ácter" : n += "acteres", n
+                    }, loadingMore: function () {
+                        return "Cargando más resultados…"
+                    }, maximumSelected: function (e) {
+                        var t = "Sólo puede seleccionar " + e.maximum + " elemento";
+                        return e.maximum != 1 && (t += "s"), t
+                    }, noResults: function () {
+                        return "No se encontraron resultados"
+                    }, searching: function () {
+                        return "Buscando…"
+                    }
+                },
+                escapeMarkup: function (text) { return text; },
+            })
+            .val(this.value)
+            .trigger('change')
+            // emit event on change.
+            .on('change', function (e) {
+                vm.$emit('input', this.value);
+                vm.$emit('change', e);
+
+                var value = $(this).select2('data');
+                if (value.length){
+                    // nos devuelve un array
+                    // console.log(value);
+                    // ahora simplemente asignamos el valor a tu variable selected de VUE
+                    Vue.set(app_vender, 'product_name', value[0].name);
+                    Vue.set(app_vender, 'cantidad_real', value[0].quantity);
+                    Vue.set(app_vender, 'precio_unitario', value[0].price_tax_incl);
+                    Vue.set(app_vender, 'es_servicio', parseInt(value[0].is_virtual) === 1 );
+                }else{
+                    Vue.set(app_vender, 'product_name', "");
+                    Vue.set(app_vender, 'cantidad_real', 0);
+                    Vue.set(app_vender, 'precio_unitario', 0);
+                    Vue.set(app_vender, 'es_servicio', false );
+                }
+            })
+
+        // https://github.com/ColorlibHQ/AdminLTE/issues/802
+        if (deviceType !== "computer"){
+            // gaurav jain: quick fix for select2 not closing on mobile devices
+            $(this.$el).on("select2:close", function () {
+                setTimeout(function () {
+                    $('.select2-container-active').removeClass('select2-container-active');
+                    $(':focus').blur();
+                }, 1);
+            });
+
+            // gaurav jain: quick fix for select2 not opening on mobile devices if with textbox
+            $(this.$el).on('select2:open', function () {
+                $('.select2-search__field').prop('focus', false);
+            });
+        }
+
+
+    },
+    methods : {
+        templateResult(repo) {
+            if (repo.loading) {
+                return repo.text;
+            }
+
+            var $container = $(
+                "<div class='select2-result-repository clearfix'>" +
+                // "<div class='select2-result-repository__avatar'><img src='' /></div>" +
+                "<div class='select2-result-repository__meta'>" +
+                "<div class='select2-result-repository__title'></div>" +
+                "<div class='select2-result-repository__description'></div>" +
+                '<div class="select2-result-repository__statistics">' +
+                '<div class="select2-result-repository__forks"><i class="fa fa-list-ol"></i> </div>' +
+                '<div class="select2-result-repository__stargazers"><i class="fa fa-money"></i></div>' +
+                '</div>' +
+                "</div>" +
+                "</div>"
+            );
+
+            $container.find(".select2-result-repository__title").text(repo.name);
+            // $container.find(".select2-result-repository__description").text(repo.reference);
+
+            if (parseInt(repo.is_virtual) === 1){
+                // $container.find(".select2-result-repository__forks").remove();
+                $container.find(".select2-result-repository__forks").html("SERVICIO");
+            }else{
+                $container.find(".select2-result-repository__forks").append("&nbsp;Stock "+ repo.quantity);
+
+            }
+
+            $container.find(".select2-result-repository__stargazers").append("&nbsp;Precio "+ repo.formatted_price);
+            // $container.find(".select2-result-repository__watchers").append(repo.watchers_count + " Watchers");
+
+            return $container;
+        },
+        formatSelection(repo) {
+            // console.log(repo);
+            return repo.name || repo.text;
+        },
+    },
+    watch: {
+        value: function (value) {
+            // update value
+            $(this.$el)
+                .val(value)
+                .trigger('change')
+        },
+        options: function (options) {
+            // update options
+            $(this.$el).empty().select2({ data: options })
+        }
+    },
+    destroyed: function () {
+        $(this.$el).off().select2('destroy')
+    }
+});
+
 Vue.component('selectdos', {
     template: ' <select :name="name" :id="identifier" class="form-control">\n' +
         '        <option v-for="selecteditem in selecteditems" :key="selecteditem.id" :value="selecteditem.id" v-text="selecteditem.text" >\n' +
@@ -334,6 +469,7 @@ var app_vender = new Vue({
     data() {
         return {
             colaboradores: colaboradores,
+            productos: productos,
             perfil_empleado_vue: perfil_empleado,
             show_forma_pago: false,
             guardandoEnviar: false,

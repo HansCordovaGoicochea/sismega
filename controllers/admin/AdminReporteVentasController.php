@@ -68,6 +68,7 @@ class AdminReporteVentasControllerCore extends AdminController {
           $array_con_operaciones_izipay = Order::getOrdersDateFromDateTOIzipay($this->context->shop->id, $item['fecha_apertura'], $item['fecha_cierre']);
           $array_con_operaciones_porcobrar = Order::getOrdersDateFromDateTOPorCobrar($this->context->shop->id, $item['fecha_apertura'], $item['fecha_cierre']);
           $array_con_operaciones_egresos =PosGastos::getDateFromDateTOEgresos($this->context->shop->id, $item['fecha_apertura'], $item['fecha_cierre']);
+          $array_con_operaciones_ingresos =PosIngresos::getDateFromDateTOIngresos($this->context->shop->id, $item['fecha_apertura'], $item['fecha_cierre']);
           $array_con_operaciones_adelantos =ReservarCita::getDateFromDateTOAdelantos($this->context->shop->id, $item['fecha_apertura'], $item['fecha_cierre']);
 //           d($array_con_operaciones_porcobrar);
 
@@ -76,6 +77,7 @@ class AdminReporteVentasControllerCore extends AdminController {
             $item['izipay'] = $array_con_operaciones_izipay;
             $item['porcobrar'] = $array_con_operaciones_porcobrar;
             $item['egresos'] = $array_con_operaciones_egresos;
+            $item['ingresos'] = $array_con_operaciones_ingresos;
             $item['adelantos'] = $array_con_operaciones_adelantos;
 
            $empleado_apertura = new Employee((int)$item['id_employee_apertura']);

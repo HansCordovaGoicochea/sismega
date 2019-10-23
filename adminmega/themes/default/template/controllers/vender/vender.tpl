@@ -16,6 +16,11 @@
         colaboradores[{$key}] = { id: '{$employee.id_employee|intval}', text: '{$employee.firstname|@addcslashes:'\''} {$employee.lastname|@addcslashes:'\''}' };
     {/foreach}
 
+    var productos = new Array();
+    {foreach $productos as $key => $producto}
+        productos[{$key}] = { id: '{$producto.id|intval}', text: '{$producto.name|@addcslashes:'\''}', id_product: '{$producto.id_product|intval}', name: '{$producto.name|@addcslashes:'\''}', active: '{$producto.active}', quantity: '{$producto.quantity|floatval}', is_virtual: '{$producto.is_virtual|intval}', formatted_price: '{$producto.formatted_price|@addcslashes:'\''}', price_tax_incl: '{$producto.price_tax_incl|floatval}' };
+    {/foreach}
+
 
     const url_ajax_reservas = "{$link->getAdminLink('AdminReservarCita')|addslashes}";
     const token_reservas = "{getAdminToken tab='AdminReservarCita'}";
@@ -219,20 +224,19 @@
                     <div class="row">
                         <div>
                             <div class="input-group" style="width: 100%;">
-                                <selectdos
-                                        style=" width: 50%;"
-                                        url="ajax_products_list_ache.php"
-                                        :name="'id_producto'"
-                                        :selecteditems="[]"
-                                        :text="product_name"
-                                        :identifier="'id_product'"
-                                        v-model="id_product"
-                                >
-                                </selectdos>
+{*                                <selectdos*}
+{*                                        style=" width: 50%;"*}
+{*                                        url="ajax_products_list_ache.php"*}
+{*                                        :name="'id_producto'"*}
+{*                                        :selecteditems="[]"*}
+{*                                        :text="product_name"*}
+{*                                        :identifier="'id_product'"*}
+{*                                        v-model="id_product"*}
+{*                                >*}
+{*                                </selectdos>*}
+                                <select2-products :options="productos" :name="'id_product'" :id="'id_product'" v-model="id_product" class="form-control" style="width: 50%;"></select2-products>
 
-                                <select2-basic :options="colaboradores" :name="'id_colaborador'" :id="'id_colaborador'" v-model="id_colaborador" class="form-control" style="width: 45%;" :disabled="cart.length > 0">
-
-                                </select2-basic>
+                                <select2-basic :options="colaboradores" :name="'id_colaborador'" :id="'id_colaborador'" v-model="id_colaborador" class="form-control" style="width: 45%;" :disabled="cart.length > 0"></select2-basic>
                                 <div class="input-group-append"  style="width: 5%; float: right">
                                     <button type="button" class="btn btn-sm btn-primary" style="line-height: 1.75!important;" @click="addItem()">
                                         <i class="fa fa-plus"></i>
@@ -269,8 +273,8 @@
                                 <td style="width: 15%" class="text-center">
                                     <input type="text" class="price form-control" v-model="item.price" @keyup="changePrecioUnitario(item)"/>
                                 </td>
-                                <td style="width: 15%">
-                                    <input type="text" class="total form-control" v-model="item.importe_linea" @keyup="changeImporte(item)"/>
+                                <td style="width: 15%" v-text="item.importe_linea">
+{*                                    <input type="text" class="total form-control disabled" v-model="item.importe_linea" @keyup="changeImporte(item)"/>*}
                                 </td>
                                 <td style="width: 5%"><button class="btn btn-danger" @click="borrarProducto(item)"><i class="fa fa-trash fa-lg"></i></button></td>
                             </tr>
