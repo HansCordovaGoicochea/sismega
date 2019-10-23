@@ -1,0 +1,45 @@
+*ERROR* 	v1.7.4.4	2019/09/12 - 20:34:06: Table 'siscitas.tm_order' doesn't exist<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS  a.*
+, CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador, ec.firstname as cliente, o.date_add as fecha
+FROM `tm_order_detail` a 
+
+LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_colaborador`)LEFT JOIN `tm_order` o ON (o.`id_order` = a.`id_order` AND o.`id_shop` = 1)LEFT JOIN `tm_customer` ec ON (ec.`id_customer` = o.`id_customer`) 
+ WHERE 1 
+
+ ORDER BY o.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/12 - 20:34:57: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'es_servicio = 1 
+
+ ORDER BY o.`date_add` DESC  LIMIT 0, 50' at line 6<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS  a.*
+, CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador, ec.firstname as cliente, o.date_add as fecha
+FROM `tm_order_detail` a 
+
+LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_colaborador`)LEFT JOIN `tm_orders` o ON (o.`id_order` = a.`id_order` AND o.`id_shop` = 1)LEFT JOIN `tm_customer` ec ON (ec.`id_customer` = o.`id_customer`) 
+ WHERE 1  es_servicio = 1 
+
+ ORDER BY o.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/12 - 20:41:48: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY o.`date_add` DESC  LIMIT 0, 50' at line 8<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS  a.*
+, CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador, ec.firstname as cliente, o.date_add as fecha
+FROM `tm_order_detail` a 
+
+LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_colaborador`)LEFT JOIN `tm_orders` o ON (o.`id_order` = a.`id_order` AND o.`id_shop` = 1)LEFT JOIN `tm_customer` ec ON (ec.`id_customer` = o.`id_customer`) 
+ WHERE 1  AND id_colaborador =  
+
+ ORDER BY o.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/12 - 20:42:38: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ORDER BY o.`date_add` DESC  LIMIT 0, 50' at line 8<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS  a.*
+, CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador, ec.firstname as cliente, o.date_add as fecha
+FROM `tm_order_detail` a 
+
+LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_colaborador`)LEFT JOIN `tm_orders` o ON (o.`id_order` = a.`id_order` AND o.`id_shop` = 1)LEFT JOIN `tm_customer` ec ON (ec.`id_customer` = o.`id_customer`) 
+ WHERE 1  AND es_servicio = 1 AND id_colaborador =  
+
+ ORDER BY o.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/12 - 20:47:47: Invalid "order by" clause. at line 3347 in file classes/controller/AdminController.php
+*ERROR* 	v1.7.4.4	2019/09/12 - 20:47:59: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND valid = 1 AND o.date_add BETWEEN  AND  
+
+ ORDER BY a.id_order_detail ASC  LI' at line 6<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS  a.*
+, CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador, ec.firstname as cliente, o.date_add as fecha
+FROM `tm_order_detail` a 
+
+LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_colaborador`)LEFT JOIN `tm_orders` o ON (o.`id_order` = a.`id_order` AND o.`id_shop` = 1)LEFT JOIN `tm_customer` ec ON (ec.`id_customer` = o.`id_customer`) 
+ WHERE 1  AND es_servicio = 1 AND id_colaborador =  AND valid = 1 AND o.date_add BETWEEN  AND  
+
+ ORDER BY a.id_order_detail ASC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php

@@ -1,0 +1,11 @@
+*ERROR* 	v1.7.4.4	2019/09/09 - 13:30:28: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'a.id_employee > 1 
+
+ ORDER BY a.id_employee ASC  LIMIT 0, 50' at line 7<br /><br /><pre>SELECT  a.*
+, pl.`name` AS profile
+FROM `tm_employee` a 
+
+LEFT JOIN `tm_profile` p ON a.`id_profile` = p.`id_profile`
+		LEFT JOIN `tm_profile_lang` pl ON (pl.`id_profile` = p.`id_profile` AND pl.`id_lang` = 1) 
+ WHERE 1 a.id_employee > 1 
+
+ ORDER BY a.id_employee ASC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php

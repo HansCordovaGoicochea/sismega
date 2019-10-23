@@ -1,0 +1,1284 @@
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:12:21: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_c' at line 31<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`, `tipo_pago`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        c.`firstname` AS `customer`,
+		c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+    
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:13:30: Unknown column 'tipo_pago' in 'field list'<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`, `tipo_pago`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        c.`firstname` AS `customer`,
+		c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion
+    
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:20:26: Unknown column 'a.id_shop' in 'on clause'<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM tm_order_detail od
+            LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador` AND a.`id_shop` = 1)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+    
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:22:47: Table 'siscitas.tm_order_stated' doesn't exist<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM tm_order_detail od
+            LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+    
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_stated` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:32:43: Unknown column 'c.firstname' in 'field list'<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM tm_order_detail od
+            LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+    
+		
+FROM `tm_orders` a 
+
+
+
+	 
+ WHERE 1  AND a.id_shop IN (1)  
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:54:01: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'select exists(  SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador F' at line 48<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM tm_order_detail od
+            LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+    
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND select exists(  SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM '._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1) 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:54:18: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'select exists(SELECT * FROM '._DB_PREFIX_.'order_detail od
+            LEFT JOIN' at line 48<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM tm_order_detail od
+            LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+    
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND select exists(SELECT * FROM '._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1) 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:54:40: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` e' at line 48<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM tm_order_detail od
+            LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+    
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND exists(SELECT * FROM '._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1) 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:54:57: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` e' at line 48<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM tm_order_detail od
+            LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+    
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND (SELECT count(*) FROM '._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1) = 1 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:55:08: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` e' at line 48<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM tm_order_detail od
+            LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+    
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND (SELECT count(*) FROM '._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1) 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 12:56:29: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` e' at line 48<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM tm_order_detail od
+            LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+    
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND EXISTS (SELECT od.id_colaborador FROM '._DB_PREFIX_.'order_detail od
+            LEFT JOIN `'._DB_PREFIX_.'employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE od.id_order = a.id_order AND od.es_servicio = 1
+            LIMIT 1) 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 13:03:43: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE ea.`id_employee` =' at line 30<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        (
+            SELECT CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador FROM `tm_employee` ea ON (ea.`id_employee` = od.`id_colaborador`)
+            WHERE ea.`id_employee` = od.`id_colaborador` AND od.es_servicio = 1
+            LIMIT 1
+        ) as colaborador
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_order_detail` od ON (od.`id_order` = a.`id_order`)
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 13:05:53: Not unique table/alias: 'od'<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_order_detail` od ON (od.`id_order` = a.`id_order`)
+		LEFT JOIN `tm_employee` od ON (ea.`id_employee` = od.`id_colaborador`)
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND od.id_colaborador > 1 AND od.es_servicio 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 13:28:57: Column 'id_colaborador' in where clause is ambiguous<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS  a.*
+, CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador, ec.firstname as cliente, o.date_add as fecha
+FROM `tm_order_detail` a 
+
+LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_colaborador`)LEFT JOIN `tm_orders` o ON (o.`id_order` = a.`id_order` AND o.`id_shop` = 1)LEFT JOIN `tm_customer` ec ON (ec.`id_customer` = o.`id_customer`) 
+ WHERE 1  AND es_servicio = 1 AND id_colaborador = 3 AND valid = 1 AND o.date_add BETWEEN '2019-01-01' AND '2019-09-13' 
+
+ ORDER BY o.`date_add` DESC  LIMIT 0, 20</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 13:48:49: Unknown column 'od.id_colaborador' in 'where clause'<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = o.`id_colaborador`)
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND od.id_colaborador > 1 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 13:48:54: Unknown column 'o.id_colaborador' in 'where clause'<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = o.`id_colaborador`)
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND o.id_colaborador > 1 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 13:49:05: Unknown column 'o.id_colaborador' in 'on clause'<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+				c.num_document AS `doc_cliente`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		IF((SELECT so.id_order FROM `tm_orders` so WHERE so.id_customer = a.id_customer AND so.id_order < a.id_order LIMIT 1) > 0, 0, 1) as new,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - a.total_paid_real) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion,
+        CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = o.`id_colaborador`)
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  AND a.current_state in (1, 2, 6) AND a.id_colaborador > 1 
+
+ ORDER BY a.`date_add` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:26:44: Unknown column 'op.reference' in 'where clause'<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.reference = a.reference)) as deuda,
+        a.total_paid_real as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:28:30: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.la' at line 26<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as deuda,
+        (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:28:33: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.la' at line 26<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as deuda,
+        (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:28:54: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.la' at line 26<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as deuda,
+        (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:29:15: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.la' at line 26<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as deuda,
+        (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+		LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_colaborador`)
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:29:44: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') as `pagado`,
+    
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LE' at line 26<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as deuda,
+        (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as `pagado`,
+    
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:30:03: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') as pagado,
+    
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT' at line 26<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as deuda,
+        (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as pagado,
+    
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:30:37: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.la' at line 26<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as deuda,
+        (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:30:58: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.la' at line 26<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as deuda,
+        (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 15:31:49: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ') as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.la' at line 26<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS a.`id_order`, a.`date_add` AS `date_add`
+, 
+        (a.total_paid_tax_incl - a.total_paid_tax_excl) as igv_order2,
+        a.total_paid_tax_incl as total_paid_tax_incl,
+		a.total_paid_tax_excl as total_paid_tax_excl,
+		a.id_customer,
+
+		a.id_currency,
+		
+		a.id_order AS id_pdf,
+		a.id_order as `id_xml`,
+        a.id_order as `id_pdf2`,
+        a.id_order as `id_pdf2Bol`,
+        a.id_order as `id_cdrxml`,
+        
+        
+		c.num_document AS `doc_cliente`,
+		CONCAT(c.`firstname`, " (", c.num_document, ") ") AS `customer`,
+		osl.`name` AS `osname`,
+		os.`color`,
+		country_lang.name as cname,
+		IF(a.valid, 1, 0) badge_success,
+		IF (poc.tipo_documento_electronico != "", poc.tipo_documento_electronico, "Ticket") comprobante,
+		IF (poc.numero_comprobante  != "", poc.numero_comprobante, a.nro_ticket) nro_comprobante,
+        (a.total_paid_tax_incl - (select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference)) as deuda,
+        IF ((select SUM(op.amount) from `tm_order_payment` op where op.order_reference = a.reference), 0) as `pagado`,
+        IF (a.`id_employee`, CONCAT_WS(" ",emp.firstname, emp.lastname), "Venta desde la Web") as empleado,
+        motivo_anulacion
+		
+FROM `tm_orders` a 
+
+
+
+		LEFT JOIN `tm_customer` c ON (c.`id_customer` = a.`id_customer`)
+		LEFT JOIN `tm_address` address ON address.id_address = a.id_address_delivery
+		LEFT JOIN `tm_country` country ON address.id_country = country.id_country
+		LEFT JOIN `tm_country_lang` country_lang ON (country.`id_country` = country_lang.`id_country` AND country_lang.`id_lang` = 1)
+		LEFT JOIN `tm_order_state` os ON (os.`id_order_state` = a.`current_state`)
+		LEFT JOIN `tm_order_state_lang` osl ON (os.`id_order_state` = osl.`id_order_state` AND osl.`id_lang` = 1)
+		LEFT JOIN `tm_pos_ordercomprobantes` poc ON (poc.`id_order` = a.`id_order`)
+        LEFT JOIN `tm_employee` emp ON (emp.`id_employee` = a.`id_employee`) 
+ WHERE 1  AND a.id_shop IN (1)  
+ GROUP BY a.id_order 
+ ORDER BY a.`id_order` DESC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 18:13:58: Table 'siscitas.tm_pos_arqueocaja' doesn't exist<br /><br /><pre>TRUNCATE TABLE `tm_pos_arqueocaja`</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 18:23:41: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '00:00:00 AND '2019-09-13' 23:59:59 
+
+ ORDER BY o.`date_add` DESC  LIMIT 0, 20' at line 6<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS  a.*
+, CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador, ec.firstname as cliente, o.date_add as fecha
+FROM `tm_order_detail` a 
+
+LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_colaborador`)LEFT JOIN `tm_orders` o ON (o.`id_order` = a.`id_order` AND o.`id_shop` = 1)LEFT JOIN `tm_customer` ec ON (ec.`id_customer` = o.`id_customer`) 
+ WHERE 1  AND es_servicio = 1 AND a.id_colaborador = 3 AND valid = 1 AND o.date_add BETWEEN '2019-09-01' 00:00:00 AND '2019-09-13' 23:59:59 
+
+ ORDER BY o.`date_add` DESC  LIMIT 0, 20</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/09/13 - 18:24:33: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '00:00:00 AND valid = 1 AND o.date_add BETWEEN '2019-09-01' AND '2019-09-13 23:59' at line 6<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS  a.*
+, CONCAT_WS(" ",ea.firstname, ea.lastname) as colaborador, ec.firstname as cliente, o.date_add as fecha
+FROM `tm_order_detail` a 
+
+LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_colaborador`)LEFT JOIN `tm_orders` o ON (o.`id_order` = a.`id_order` AND o.`id_shop` = 1)LEFT JOIN `tm_customer` ec ON (ec.`id_customer` = o.`id_customer`) 
+ WHERE 1  AND es_servicio = 1 AND a.id_colaborador = 3 00:00:00 AND valid = 1 AND o.date_add BETWEEN '2019-09-01' AND '2019-09-13 23:59:59' 
+
+ ORDER BY o.`date_add` DESC  LIMIT 0, 20</pre> at line 746 in file classes/db/Db.php

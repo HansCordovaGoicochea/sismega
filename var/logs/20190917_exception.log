@@ -1,0 +1,1 @@
+*ERROR* 	v1.7.4.4	2019/09/17 - 20:31:41: Link to database cannot be established: SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 120 in file classes/db/DbPDO.php

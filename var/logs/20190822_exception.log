@@ -1,0 +1,5 @@
+*ERROR* 	v1.7.4.4	2019/08/22 - 16:21:26: Unknown column 'fecha_apertura' in 'order clause'<br /><br /><pre>
+			SELECT *
+			FROM `tm_pos_caja`
+			WHERE estado_apertura = 1 AND `id_shop` = 1
+			ORDER BY fecha_apertura DESC LIMIT 1</pre> at line 746 in file classes/db/Db.php

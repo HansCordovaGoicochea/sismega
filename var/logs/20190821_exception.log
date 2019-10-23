@@ -1,0 +1,8 @@
+*ERROR* 	v1.7.4.4	2019/08/21 - 20:01:33: Unknown column 'a.id_empleado' in 'on clause'<br /><br /><pre>SELECT SQL_CALC_FOUND_ROWS  a.*
+, CONCAT_WS(" ",ea.firstname, ea.lastname) as empleado_apertura, IF(a.estado_apertura = 1, "Caja Abierta", "Caja Cerrada") estado_caja, estado_apertura
+FROM `tm_pos_caja` a 
+
+LEFT JOIN `tm_employee` ea ON (ea.`id_employee` = a.`id_empleado` AND a.`id_shop` = 1) 
+ WHERE 1 
+
+ ORDER BY a.id_pos_caja ASC  LIMIT 0, 50</pre> at line 746 in file classes/db/Db.php

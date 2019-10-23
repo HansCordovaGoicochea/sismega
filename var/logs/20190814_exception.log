@@ -1,0 +1,5 @@
+*ERROR* 	v1.7.4.4	2019/08/14 - 19:34:57: Table 'siscitas.tm_pos_ordercomprobantes' doesn't exist<br /><br /><pre>TRUNCATE TABLE `tm_pos_ordercomprobantes`</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/08/14 - 19:36:43: Table 'siscitas.tm_pos_arqueoscaja' doesn't exist<br /><br /><pre>TRUNCATE TABLE `tm_pos_arqueoscaja`</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/08/14 - 19:36:53: Table 'siscitas.tm_pos_arqueoscaja' doesn't exist<br /><br /><pre>TRUNCATE TABLE `tm_pos_arqueoscaja`</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/08/14 - 19:37:21: Table 'siscitas.tm_pos_arqueoscaja' doesn't exist<br /><br /><pre>TRUNCATE TABLE `tm_pos_arqueoscaja`</pre> at line 746 in file classes/db/Db.php
+*ERROR* 	v1.7.4.4	2019/08/14 - 19:37:47: Table 'siscitas.tm_pos_arqueoscaja' doesn't exist<br /><br /><pre>TRUNCATE TABLE `tm_pos_arqueoscaja`</pre> at line 746 in file classes/db/Db.php
