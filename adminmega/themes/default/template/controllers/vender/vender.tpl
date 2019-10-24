@@ -222,6 +222,9 @@
                 </div>
                 <div id="right-panel" class="pos-content list_products_div col-sm-12 col-md-8 ">
                     <div class="row">
+                        <button class="btn btn-success" @click="abrirModalAgregarServicio()">AGREGAR SERVICIO</button>
+                    </div>
+                    <div class="row">
                         <div>
                             <div class="input-group" style="width: 100%;">
 {*                                <selectdos*}
@@ -260,7 +263,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-center" width="10%">Cant.</th>
-                                    <th scope="col" class="head-title"  width="25%">Producto</th>
+                                    <th scope="col" class="head-title"  width="25%">Descripción</th>
                                     <th scope="col" class="head-title"  width="15%">Fecha</th>
                                     <th scope="col" class="head-title"  width="20%">Colaborador</th>
                                     <th scope="col" class="text-center" width="12%">P.U.</th>
@@ -392,6 +395,54 @@
             </div>
         </div>
     </div>
+
+    <div>
+        <div role="dialog" tabindex="-1" class="modal fade" id="modal_agregar_servicio" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div role="document" class="modal-content">
+                    <div class="modal-body">
+                        <div class="bv-example-row">
+                            <div class="input-group" style="width: 100%;">
+                                {*                                <selectdos*}
+                                {*                                        style=" width: 50%;"*}
+                                {*                                        url="ajax_products_list_ache.php"*}
+                                {*                                        :name="'id_producto'"*}
+                                {*                                        :selecteditems="[]"*}
+                                {*                                        :text="product_name"*}
+                                {*                                        :identifier="'id_product'"*}
+                                {*                                        v-model="id_product"*}
+                                {*                                >*}
+                                {*                                </selectdos>*}
+                                <div class="input-group-append"  style="width: 40%; float: left;">
+                                    <select2-products :options="productos" :name="'id_product'" :id="'id_product'" v-model="id_product" class="form-control"></select2-products>
+                                </div>
+                                <div class="input-group-append"  style="width: 20%; float: left;">
+                                    <div class="input-group col-lg-12">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <datepicker v-model="fecha_tours" style="height: 34px;"></datepicker>
+                                    </div>
+                                </div>
+                                <div class="input-group-append"  style="width: 35%; float: left;">
+                                    <select2-basic :options="colaboradores" :name="'id_colaborador'" :id="'id_colaborador'" v-model="id_colaborador" class="form-control" :disabled="cart.length > 0"></select2-basic>
+                                </div>
+                                <div class="input-group-append"  style="width: 5%; float: right">
+                                    <button type="button" class="btn btn-sm btn-primary" style="line-height: 1.75!important;" @click="addItem()">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="modal-footer">
+                        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">
+                            Cerrar
+                        </button>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <style>
     .footer_ache_veder{

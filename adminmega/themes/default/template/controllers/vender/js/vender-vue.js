@@ -590,6 +590,13 @@ var app_vender = new Vue({
         },
     },
     methods: {
+        abrirModalAgregarServicio: function(){
+            $('#modal_agregar_servicio').modal({
+                backdrop: 'static',
+                keyboard: false,
+                closable: false
+            }).modal('show');
+        },
         enviarMailComprobanteCliente: function(){
             alert("aun no funciona");
         },
