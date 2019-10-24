@@ -168,6 +168,7 @@ class OrderDetailCore extends ObjectModel
     public $id_colaborador;
     public $colaborador_name;
     public $es_servicio;
+    public $fecha_tours;
 
     /**
      * @see ObjectModel::$definition
@@ -225,6 +226,8 @@ class OrderDetailCore extends ObjectModel
             'id_colaborador' =>                array('type' => self::TYPE_INT, 'validate' => 'isInt'),
             'colaborador_name' =>                array('type' => self::TYPE_STRING),
             'es_servicio' =>                array('type' => self::TYPE_BOOL),
+            'fecha_tours' =>                array('type' => self::TYPE_DATE),
+
         ),
     );
 
@@ -653,7 +656,7 @@ class OrderDetailCore extends ObjectModel
      * @param int $id_order_invoice
      * @param bool $use_taxes set to false if you don't want to use taxes
      */
-    protected function create(Order $order, Cart $cart, $product, $id_order_state, $id_order_invoice, $use_taxes = true, $id_warehouse = 0, $id_colaborador = 0)
+    protected function create(Order $order, Cart $cart, $product, $id_order_state, $id_order_invoice, $use_taxes = true, $id_warehouse = 0, $id_colaborador = 0, $fecha_tours = null)
     {
         if ($use_taxes) {
             $this->tax_calculator = new TaxCalculator();
@@ -682,9 +685,11 @@ class OrderDetailCore extends ObjectModel
             $product_quantity : (int)$product['cart_quantity'];
 
         $this->id_colaborador = $id_colaborador;
+        $this->fecha_tours = $fecha_tours;
         $objColabordaor = new Employee((int)$id_colaborador);
         $this->colaborador_name = $objColabordaor->firstname.' '.$objColabordaor->lastname;
-        $this->es_servicio = $id_colaborador && $id_colaborador > 0 ? 1 : 0;
+//        $this->es_servicio = $id_colaborador && $id_colaborador > 0 ? 1 : 0;
+        $this->es_servicio = $product['is_virtual'];
 
         $this->setVirtualProductInformation($product);
         $this->checkProductStock($product, $id_order_state);
@@ -718,7 +723,7 @@ class OrderDetailCore extends ObjectModel
      * @param int $id_order_invoice
      * @param bool $use_taxes set to false if you don't want to use taxes
     */
-    public function createList(Order $order, Cart $cart, $id_order_state, $product_list, $id_order_invoice = 0, $use_taxes = true, $id_warehouse = 0, $id_colaborador = 0)
+    public function createList(Order $order, Cart $cart, $id_order_state, $product_list, $id_order_invoice = 0, $use_taxes = true, $id_warehouse = 0, $id_colaborador = 0, $fecha_tours = null)
     {
         $this->vat_address = new Address((int)$order->{Configuration::get('PS_TAX_ADDRESS_TYPE')});
         $this->customer = new Customer((int)$order->id_customer);
@@ -727,7 +732,7 @@ class OrderDetailCore extends ObjectModel
         $this->outOfStock = false;
 
         foreach ($product_list as $product) {
-            $this->create($order, $cart, $product, $id_order_state, $id_order_invoice, $use_taxes, $id_warehouse, $id_colaborador);
+            $this->create($order, $cart, $product, $id_order_state, $id_order_invoice, $use_taxes, $id_warehouse, $id_colaborador, $fecha_tours);
         }
 
         unset($this->vat_address);
@@ -884,6 +889,15 @@ from tm_order_detail od LEFT JOIN tm_tax_rule tr on (od.id_tax_rules_group = tr.
 where id_order = '.$id_order.' AND description = "'.$codigo.'"';
 
         return (float)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
+
+    }
+
+    public static function getDeailtColaboradores($id_order){
+        $sql = 'select *
+from tm_order_detail
+where id_order = '.$id_order.' group by id_colaborador';
+
+        return Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql);
 
     }
 

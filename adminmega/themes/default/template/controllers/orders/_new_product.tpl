@@ -47,7 +47,12 @@
 			<select  id="add_product_warehouse" name="add_product_warehouse"></select>
 		</div>
 	</td>
-
+	<td>
+		<div class="input-group col-lg-12">
+			<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+			<input type="text" autocomplete="off" placeholder="Seleccionar fecha" class="form-control datepicker" id="add_product_fecha_tours" name="add_product[fecha_tours]">
+		</div>
+	</td>
 	<td style="display:none;" >
 {*		<input type="hidden" id="add_id_colaborador" name="add_colaborador[id_colaborador]" value="0" />*}
 

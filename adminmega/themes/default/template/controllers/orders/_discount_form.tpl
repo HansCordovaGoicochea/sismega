@@ -33,14 +33,14 @@
 		</div>
 	</div>
 
-	<div class="form-group">
+	<div class="form-group" style="display: none;">
 		<label class="control-label col-lg-3">
 			{l s='Type' d='Admin.Catalog.Feature'}
 		</label>
 		<div class="col-lg-9">
 			<select class="form-control" name="discount_type" id="discount_type">
-				<option value="1">{l s='Percent' d='Admin.Global'}</option>
-{*				<option value="2">{l s='Amount' d='Admin.Global'}</option>*}
+				{*				<option value="1">{l s='Percent' d='Admin.Global'}</option>*}
+				<option value="2">{l s='Amount' d='Admin.Global'}</option>
 				{*				<option value="3">{l s='Free shipping' d='Admin.Shipping.Feature'}</option>*}
 			</select>
 		</div>
@@ -53,12 +53,12 @@
 		<div class="col-lg-9">
 			<div class="input-group">
 				<div class="input-group-addon">
-					<span id="discount_currency_sign" style="display: none;">{$currency->sign}</span>
-					<span id="discount_percent_symbol">%</span>
+					<span id="discount_currency_sign">{$currency->sign}</span>
+					<span id="discount_percent_symbol"  style="display: none;">%</span>
 				</div>
 				<input class="form-control" type="text" name="discount_value"/>
 			</div>
-			<p class="text-muted" id="discount_value_help" style="display: none;">
+			<p class="text-muted" id="discount_value_help"  style="display: none;">
 				{l s='This value must include taxes.' d='Admin.Orderscustomers.Notification'}
 			</p>
 		</div>

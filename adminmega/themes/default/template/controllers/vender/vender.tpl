@@ -234,9 +234,18 @@
 {*                                        v-model="id_product"*}
 {*                                >*}
 {*                                </selectdos>*}
-                                <select2-products :options="productos" :name="'id_product'" :id="'id_product'" v-model="id_product" class="form-control" style="width: 50%;"></select2-products>
-
-                                <select2-basic :options="colaboradores" :name="'id_colaborador'" :id="'id_colaborador'" v-model="id_colaborador" class="form-control" style="width: 45%;" :disabled="cart.length > 0"></select2-basic>
+                                <div class="input-group-append"  style="width: 40%; float: left;">
+                                    <select2-products :options="productos" :name="'id_product'" :id="'id_product'" v-model="id_product" class="form-control"></select2-products>
+                                </div>
+                                <div class="input-group-append"  style="width: 20%; float: left;">
+                                    <div class="input-group col-lg-12">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <datepicker v-model="fecha_tours" style="height: 34px;"></datepicker>
+                                    </div>
+                                </div>
+                                <div class="input-group-append"  style="width: 35%; float: left;">
+                                <select2-basic :options="colaboradores" :name="'id_colaborador'" :id="'id_colaborador'" v-model="id_colaborador" class="form-control" :disabled="cart.length > 0"></select2-basic>
+                                </div>
                                 <div class="input-group-append"  style="width: 5%; float: right">
                                     <button type="button" class="btn btn-sm btn-primary" style="line-height: 1.75!important;" @click="addItem()">
                                         <i class="fa fa-plus"></i>
@@ -251,10 +260,11 @@
                             <thead>
                                 <tr>
                                     <th scope="col" class="text-center" width="10%">Cant.</th>
-                                    <th scope="col" class="head-title"  width="30%">Producto</th>
-                                    <th scope="col" class="head-title"  width="25%">Colaborador</th>
-                                    <th scope="col" class="text-center" width="15%">P.U.</th>
-                                    <th scope="col" class="text-center" width="15%">Total</th>
+                                    <th scope="col" class="head-title"  width="25%">Producto</th>
+                                    <th scope="col" class="head-title"  width="15%">Fecha</th>
+                                    <th scope="col" class="head-title"  width="20%">Colaborador</th>
+                                    <th scope="col" class="text-center" width="12%">P.U.</th>
+                                    <th scope="col" class="text-center" width="13%">Total</th>
                                     <th scope="col" class="text-center" width="5%">&nbsp;</th>
                                 </tr>
                             </thead>
@@ -265,15 +275,18 @@
                                         <input type="text" class="number_cantidad form-control" :id="'number_cantidad_'+id" ref="number_cantidad" v-model="item.quantity" @keyup="changeCantidad(item)" @input="filterInput" v-focus  @keyup.enter="setFocus()" onkeypress="return !(event.charCode != 46 && event.charCode > 31 && (event.charCode < 48 || event.charCode > 57));"/>
                                     </div>
                                 </td>
-                                <td style="width: 30%" v-text="item.title">
+                                <td style="width: 25%" v-text="item.title">
 {*                                    <input v-bind:id="'id-' + id" type="text" v-model="item.title">*}
                                 </td>
-                                <td style="width: 25%" v-text="item.colaborador_name">
+                                <td style="width: 15%" v-text="item.fecha_tours">
+{*                                    <input v-bind:id="'id-' + id" type="text" v-model="item.title">*}
                                 </td>
-                                <td style="width: 15%" class="text-center">
+                                <td style="width: 20%" v-text="item.colaborador_name">
+                                </td>
+                                <td style="width: 12%" class="text-center">
                                     <input type="text" class="price form-control" v-model="item.price" @keyup="changePrecioUnitario(item)"/>
                                 </td>
-                                <td style="width: 15%" v-text="item.importe_linea">
+                                <td style="width: 13%" v-text="item.importe_linea">
 {*                                    <input type="text" class="total form-control disabled" v-model="item.importe_linea" @keyup="changeImporte(item)"/>*}
                                 </td>
                                 <td style="width: 5%"><button class="btn btn-danger" @click="borrarProducto(item)"><i class="fa fa-trash fa-lg"></i></button></td>

@@ -111,7 +111,7 @@ class HTMLTemplateFacturaVentaRapidaCore extends HTMLTemplate
         }
 
         $customer = new Customer((int)$this->order->id_customer);
-        $colaborador = new Customer((int)$this->order->id_colaborador);
+        $colaborador = new Employee((int)$this->order->id_colaborador);
 
         $this->context = Context::getContext();
 //        d($address_supplier);

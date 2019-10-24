@@ -62,12 +62,12 @@
                     <td style="text-align: center;">{if $order->total_discounts > 0} -{displayPrice currency=$order->id_currency price=$order->total_discounts}{else}S/0.00{/if}</td>
                 </tr>
                 <tr>
-                <td colspan="3" style="text-align: right">SubTotal:</td>
-                <td style="text-align: center" >{displayPrice currency=$order->id_currency price=$footer.products_before_discounts_tax_excl}</td>
+                    <td colspan="3" style="text-align: right">SubTotal:</td>
+                    <td style="text-align: center" >{displayPrice currency=$order->id_currency price=$footer.products_before_discounts_tax_excl}</td>
                 </tr>
                 <tr>
-                <td colspan="3" style="text-align: right" >IGV:</td>
-                <td style="text-align: center">{displayPrice currency=$order->id_currency price=$footer.total_taxes}</td>
+                    <td colspan="3" style="text-align: right" >IGV:</td>
+                    <td style="text-align: center">{displayPrice currency=$order->id_currency price=$footer.total_taxes}</td>
                 </tr>
                 <tr>
                     <td colspan="3" style="text-align: right">Total:</td>
@@ -94,11 +94,13 @@
         </td>
 
     </tr>
-    {if $empleado}
-    <tr >
-        <td colspan="4" style="">Emp.: {$empleado->lastname}, {$empleado->firstname}</td>
-    </tr>
-    {/if}
+    <tr><td colspan="4">Colaborador(es): </td></tr>
+    {foreach OrderDetail::getDeailtColaboradores($order->id) as $order_detail}
+        <tr >
+            <td colspan="4" style="">{$order_detail.colaborador_name}</td>
+        </tr>
+    {/foreach}
+
     <tr>
         <td style="text-align: center" colspan="4">
             <span><strong>¡GRACIAS POR SU PREFERENCIA!</strong></span><br>

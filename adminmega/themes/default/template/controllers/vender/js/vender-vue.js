@@ -544,7 +544,10 @@ var app_vender = new Vue({
             monto_deuda: 0,
 
             //////
-            order_bycliente: []
+            order_bycliente: [],
+
+            //tours
+            fecha_tours: ""
         };
     },
     ready: function() {
@@ -757,6 +760,7 @@ var app_vender = new Vue({
                         importe_linea_temporal: parseFloat(self.precio_unitario),
                         id_colaborador: self.id_colaborador,
                         colaborador_name: self.colaborador_name,
+                        fecha_tours: self.fecha_tours,
                     });
                     $.growl.notice({ title: 'Prod. Agregado!', message: '', duration: 1000, location: 'br' });
                     this.limpiarDatosAdd();
@@ -786,7 +790,7 @@ var app_vender = new Vue({
             self.id_product = 0;
             self.product_name = "";
 
-            $('#id_product').empty().trigger('change');
+            // $('#id_product').empty().trigger('change');
 
             self.cantidad_real = 0;
             self.precio_unitario = 0;

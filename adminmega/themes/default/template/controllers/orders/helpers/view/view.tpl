@@ -690,6 +690,7 @@
               <thead>
               <tr>
                 <th><span class="title_box ">{l s='Product' d='Admin.Global'}</span></th>
+                <th><span class="title_box ">{l s='Fecha' d='Admin.Global'}</span></th>
                 <th><span class="title_box ">Colaborador</span></th>
 
                 <th>

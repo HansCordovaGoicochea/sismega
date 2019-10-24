@@ -82,6 +82,8 @@ class HTMLTemplateVentasCierreCajaCore extends HTMLTemplate
         $array_con_operaciones_porcobrar = Order::getOrdersDateFromDateTOPorCobrar($this->context->shop->id, $this->operaciones_caja->fecha_apertura, $this->operaciones_caja->fecha_cierre);
         $array_con_operaciones_egresos =PosGastos::getDateFromDateTOEgresos($this->context->shop->id, $this->operaciones_caja->fecha_apertura, $this->operaciones_caja->fecha_cierre);
         $array_con_operaciones_adelantos =ReservarCita::getDateFromDateTOAdelantos($this->context->shop->id, $this->operaciones_caja->fecha_apertura, $this->operaciones_caja->fecha_cierre);
+        $array_con_operaciones_ingresos =PosIngresos::getDateFromDateTOIngresos($this->context->shop->id, $this->operaciones_caja->fecha_apertura, $this->operaciones_caja->fecha_cierre);
+
 
         $empleado_apertura = new Employee((int)$this->operaciones_caja->id_employee_apertura);
 
@@ -108,6 +110,7 @@ class HTMLTemplateVentasCierreCajaCore extends HTMLTemplate
             'egresos' => $array_con_operaciones_egresos,
             'adelantos' => $array_con_operaciones_adelantos,
             'empleado_apertura'=> $empleado_apertura,
+            'ingresos'=> $array_con_operaciones_ingresos,
         );
 
         if (Tools::getValue('debug')) {

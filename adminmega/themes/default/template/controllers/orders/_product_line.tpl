@@ -48,6 +48,8 @@
 			</div>
 		</div>
 	</td>
+
+	<td>{if $product.fecha_tours != "0000-00-00"}{$product.fecha_tours}{else}--{/if}</td>
 	<td>{if $product.colaborador_name}{$product.colaborador_name}{else}--{/if}</td>
 	<td>
 		<span class="product_price_show">{displayPrice price=$product_price currency=$currency->id}</span>

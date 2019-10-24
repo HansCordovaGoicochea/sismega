@@ -508,7 +508,7 @@
                                         <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
                                         <td style="text-align: left;">{$detail.descripcion}</td>
                                         <td style="text-align: center;">- -</td>
-                                        <td style="text-align: center;">-{displayPrice currency=1 price=$detail.monto|round:2}</td>
+                                        <td style="text-align: center;">{displayPrice currency=1 price=$detail.monto|round:2}</td>
                                         <td style="text-align: center;">- -</td>
                                     </tr>
                                 {/foreach}

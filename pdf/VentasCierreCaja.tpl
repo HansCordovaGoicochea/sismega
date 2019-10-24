@@ -308,6 +308,42 @@
 
                 {/if}
 
+                {assign var='suma_ingresos' value = 0}
+                {if count($ingresos)}
+                    <tr class="info" style="background-color: #08ca98; color: #fff; font-size: 9px;">
+                        <td style="text-align: center;" colspan="6">
+                            <strong>
+                                EGRESOS
+                            </strong>
+                        </td>
+                    </tr>
+                    {assign var='total' value=0}
+                    {assign var='nro_operaciones' value=0}
+                    {foreach from=$ingresos item='detail'}
+                        {assign var='suma_ingresos' value = $suma_ingresos + $detail.monto}
+                        {assign var='total' value=$total+$detail.monto}
+                        {assign var='nro_operaciones' value=$nro_operaciones+1}
+                        <tr >
+                            <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
+                            <td style="text-align: left;">{$detail.descripcion}</td>
+                            <td style="text-align: center;">- -</td>
+                            <td style="text-align: center;">{displayPrice currency=1 price=$detail.monto|round:2}</td>
+                            <td style="text-align: center;">- -</td>
+                        </tr>
+                    {/foreach}
+
+                    <tr class="warning">
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;"></td>
+                        <td style="text-align: right;">Totales</td>
+                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
+                        <td style="text-align: center;"> - - </td>
+                        <td style="text-align: center;"> - - </td>
+                        {*                                    <td style="text-align: right;"></td>*}
+                    </tr>
+
+                {/if}
+
                 {assign var='suma_adelantos' value = 0}
                 {if count($adelantos)}
                     <tr class="info" style="background-color: #08ca98; color: #fff; font-size: 9px;">
@@ -360,10 +396,13 @@
                     <td style="text-align: right;"  colspan="6">Total Egresos: -{displayPrice currency=1 price=$suma_egresos|round:2}</td>
                 </tr>
                 <tr class="warning">
+                    <td style="text-align: right;"  colspan="6">Total Ingresos: {displayPrice currency=1 price=$suma_ingresos|round:2}</td>
+                </tr>
+                <tr class="warning">
                     <td style="text-align: right;"  colspan="6">Total Adelantos: {displayPrice currency=1 price=$suma_adelantos|round:2}</td>
                 </tr>
                 <tr class="warning">
-                    <td style="text-align: right; font-size: 1.75em;"  colspan="6">Saldo en Caja: {displayPrice currency=1 price=($suma_adelantos + $suma_efectivo + $operacion_caja->monto_apertura) - $suma_egresos|round:2}</td>
+                    <td style="text-align: right; font-size: 1.75em;"  colspan="6">Saldo en Caja: {displayPrice currency=1 price=($suma_adelantos + $suma_efectivo + $operacion_caja->monto_apertura +$suma_ingresos ) - $suma_egresos|round:2}</td>
                 </tr>
                 </tbody>
             </table>
