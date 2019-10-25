@@ -313,7 +313,7 @@
                     <tr class="info" style="background-color: #08ca98; color: #fff; font-size: 9px;">
                         <td style="text-align: center;" colspan="6">
                             <strong>
-                                EGRESOS
+                                INGRESOS ADICIONALES
                             </strong>
                         </td>
                     </tr>
