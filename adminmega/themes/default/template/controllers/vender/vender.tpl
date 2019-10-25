@@ -221,7 +221,7 @@
                     </div>
                 </div>
                 <div id="right-panel" class="pos-content list_products_div col-sm-12 col-md-8 ">
-                    <div class="row">
+                    <div class="row hide">
                         <button class="btn btn-success" @click="abrirModalAgregarServicio()">AGREGAR SERVICIO</button>
                     </div>
                     <div class="row">
@@ -289,7 +289,7 @@
                                 <td style="width: 12%" class="text-center">
                                     <input type="text" class="price form-control" v-model="item.price" @keyup="changePrecioUnitario(item)"/>
                                 </td>
-                                <td style="width: 13%" v-text="item.importe_linea">
+                                <td style="width: 13%" class="text-center" v-text="item.importe_linea">
 {*                                    <input type="text" class="total form-control disabled" v-model="item.importe_linea" @keyup="changeImporte(item)"/>*}
                                 </td>
                                 <td style="width: 5%"><button class="btn btn-danger" @click="borrarProducto(item)"><i class="fa fa-trash fa-lg"></i></button></td>
