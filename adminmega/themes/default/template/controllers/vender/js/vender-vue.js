@@ -547,7 +547,7 @@ var app_vender = new Vue({
             order_bycliente: [],
 
             //tours
-            fecha_tours: ""
+            fecha_tours: moment().format('YYYY-MM-DD'),
         };
     },
     ready: function() {

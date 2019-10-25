@@ -47,7 +47,7 @@
                 {foreach $order_details as $order_detail}
                     <tr>
                         <td style="text-align: center;">{$order_detail.product_quantity|round:2}</td>
-                        <td style="text-align: left;">{$order_detail.product_name}</td>
+                        <td style="text-align: left;">{$order_detail.product_name} {if $order_detail.fecha_tours != "0000-00-00"}{$order_detail.fecha_tours|date_format:"%d/%m/%Y"}{/if}</td>
                         <td style="text-align: center;">{displayPrice currency=$order->id_currency price=$order_detail.total_price_tax_incl|round:2}</td>
                     </tr>
                 {/foreach}
