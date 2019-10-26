@@ -492,7 +492,7 @@
                             <tr class="info">
                                 <td style="text-align: center; font-size: 1.25em" colspan="6">
                                     <strong>
-                                        INGRESOS
+                                        INGRESOS ADICIONALES
                                     </strong>
                                 </td>
                             </tr>
@@ -578,7 +578,7 @@
                             <td style="text-align: right; font-weight: bold"  colspan="6">Total Egresos: -{displayPrice currency=1 price=$suma_egresos|round:2}</td>
                         </tr>
                         <tr class="warning">
-                            <td style="text-align: right; font-weight: bold"  colspan="6">Total Ingresos: {displayPrice currency=1 price=$suma_ingresos|round:2}</td>
+                            <td style="text-align: right; font-weight: bold"  colspan="6">Total Ingresos Adicionales: {displayPrice currency=1 price=$suma_ingresos|round:2}</td>
                         </tr>
                         <tr class="warning">
                             <td style="text-align: right; font-weight: bold"  colspan="6">Total Adelantos: {displayPrice currency=1 price=$suma_adelantos|round:2}</td>
