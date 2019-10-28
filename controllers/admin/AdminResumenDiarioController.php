@@ -28,100 +28,100 @@ class AdminResumenDiarioControllerCore extends AdminController
 {
 
     public function __construct()
-	{
+    {
 
-		$this->bootstrap = true;
-	 	$this->table = 'resumen_diario';
-		$this->className = 'ResumenDiario';
-	 	$this->lang = false;
-		$this->context = Context::getContext();
+        $this->bootstrap = true;
+        $this->table = 'resumen_diario';
+        $this->className = 'ResumenDiario';
+        $this->lang = false;
+        $this->context = Context::getContext();
         $this->addRowAction('edit');
-		$this->addRowAction('delete');
+        $this->addRowAction('delete');
 //        $this->addRowAction('view');
 
         parent::__construct();
 
         $this->bulk_actions = array(
-			'delete' => array(
-				'text' => $this->l('Delete selected'),
-				'confirm' => $this->l('Delete selected items?'),
-				'icon' => 'icon-trash'
-			)
-		);
+            'delete' => array(
+                'text' => $this->l('Delete selected'),
+                'confirm' => $this->l('Delete selected items?'),
+                'icon' => 'icon-trash'
+            )
+        );
 
         $this->_orderBy = 'id_resumen_diario';
         $this->_orderWay = 'DESC';
-		$this->fields_list = array(
-                'id_resumen_diario' => array(
-                            'title' => $this->l('ID'),
-                            'align' => 'center',
-                            'class' => 'fixed-width-xs'
-                ),
-                'identificador_resumen_diario' => array(
-                            'title' => $this->l('NRO'),
-                            'align' => 'center',
-                            'type' => 'date'
-                ),
-                'fecha_generacion_resumen_diario' => array(
-                            'title' => $this->l('Fecha Generación'),
-                            'align' => 'center',
-                            'type' => 'date'
-                ),
-                'fecha_emision_comprobantes' => array(
-                            'title' => $this->l('Fecha Emision Comp.'),
-                            'align' => 'center',
-                            'type' => 'date'
-                ),
-                'nro_ticket' => array(
-                            'title' => $this->l('Ticket'),
-                            'align' => 'center',
-                ),
-			);
+        $this->fields_list = array(
+            'id_resumen_diario' => array(
+                'title' => $this->l('ID'),
+                'align' => 'center',
+                'class' => 'fixed-width-xs'
+            ),
+            'identificador_resumen_diario' => array(
+                'title' => $this->l('NRO'),
+                'align' => 'center',
+                'type' => 'date'
+            ),
+            'fecha_generacion_resumen_diario' => array(
+                'title' => $this->l('Fecha Generación'),
+                'align' => 'center',
+                'type' => 'date'
+            ),
+            'fecha_emision_comprobantes' => array(
+                'title' => $this->l('Fecha Emision Comp.'),
+                'align' => 'center',
+                'type' => 'date'
+            ),
+            'nro_ticket' => array(
+                'title' => $this->l('Ticket'),
+                'align' => 'center',
+            ),
+        );
 
         $this->shopLinkType = 'shop';
         $this->shopShareDatas = Shop::SHARE_ORDER;
-		
-	}
 
-        public function initPageHeaderToolbar()
-	{
-		if (empty($this->display))
-			$this->page_header_toolbar_btn['new_resumen_diario'] = array(
-				'href' => self::$currentIndex.'&addresumen_diario&token='.$this->token,
-				'desc' => $this->l('Crear Resumen Diario', null, null, false),
-				'icon' => 'process-icon-new'
-			);
-		
-		parent::initPageHeaderToolbar();
-	}
-        public function renderForm()
-	{
+    }
 
-		$this->fields_form = array(
-			'legend' => array(
-				'title' => $this->l('Resumen Diario'),
-				'icon' => 'icon-group'
-			),
-			'input' => array(),
-			'submit' => array(
-				'title' => $this->l('Save'),
-			)
-		);
+    public function initPageHeaderToolbar()
+    {
+        if (empty($this->display))
+            $this->page_header_toolbar_btn['new_resumen_diario'] = array(
+                'href' => self::$currentIndex.'&addresumen_diario&token='.$this->token,
+                'desc' => $this->l('Crear Resumen Diario', null, null, false),
+                'icon' => 'process-icon-new'
+            );
+
+        parent::initPageHeaderToolbar();
+    }
+    public function renderForm()
+    {
+
+        $this->fields_form = array(
+            'legend' => array(
+                'title' => $this->l('Resumen Diario'),
+                'icon' => 'icon-group'
+            ),
+            'input' => array(),
+            'submit' => array(
+                'title' => $this->l('Save'),
+            )
+        );
 
 
 
-            $arrary_tiendas = Shop::getContextListShopID(false);
+        $arrary_tiendas = Shop::getContextListShopID(false);
 
-            $objResumenDiario = new ResumenDiario((int)Tools::getValue('id_resumen_diario'));
+        $objResumenDiario = new ResumenDiario((int)Tools::getValue('id_resumen_diario'));
 
-            $this->context->smarty->assign(array(
-                'nro_tiendas'=>count($arrary_tiendas),
-                'objResumenDiario'=>$objResumenDiario,
+        $this->context->smarty->assign(array(
+            'nro_tiendas'=>count($arrary_tiendas),
+            'objResumenDiario'=>$objResumenDiario,
 //                'correlativo_resumen'=>$correlativo_resumen,
-            ));
+        ));
 
-            return parent::renderForm();
-        }
+        return parent::renderForm();
+    }
     public function setMedia($isNewTheme = false)
     {
         parent::setMedia($isNewTheme);
@@ -161,6 +161,7 @@ class AdminResumenDiarioControllerCore extends AdminController
 
     public function ajaxProcessGuardarResumenDiario()
     {
+
 
 //        $correlativo_resumen = NumeracionDocumento::getDatos('ResumenDiario', $caja['id_apertura_caja']);
         $correlativo_resumen = NumeracionDocumento::getNumTipoDoc('ResumenDiario');
@@ -275,7 +276,7 @@ class AdminResumenDiarioControllerCore extends AdminController
                     $PartyIdentificationXml = $SignatoryPartyXml->addChild('PartyIdentification',null,'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
                     $PartyIdentificationXml->addChild('ID',PS_SHOP_RUC,'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
                     $PartyNameXml = $SignatoryPartyXml->addChild('PartyName',null,'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
-                    $PartyNameXml->addChild('Name',PS_SHOP_RAZON_SOCIAL,'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+                    $PartyNameXml->addChild('Name',Tools::eliminar_tildes(PS_SHOP_RAZON_SOCIAL),'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
                     $DigitalSignatureAttachmentXml = $SignatureXml->addChild('DigitalSignatureAttachment',null,'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
                     $ExternalReferenceXml = $DigitalSignatureAttachmentXml->addChild('ExternalReference',null,'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
                     $ExternalReferenceXml->addChild('URI','SIGN','urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
@@ -285,7 +286,8 @@ class AdminResumenDiarioControllerCore extends AdminController
                     $AccountingSupplierPartyXml->addChild('AdditionalAccountID',"6",'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
                     $PartyXml = $AccountingSupplierPartyXml->addChild('Party',null,'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
                     $RegistrationNameXml = $PartyXml->addChild('PartyLegalEntity',null,'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
-                    $RegistrationNameXml->addChild('RegistrationName',PS_SHOP_RAZON_SOCIAL,'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+
+                    $RegistrationNameXml->addChild('RegistrationName',Tools::eliminar_tildes(PS_SHOP_RAZON_SOCIAL),'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
 
                     $resumen_details = ResumenDiariodetalle::getDetalleFacturaID($objResumenDiario->id);
                     foreach ($resumen_details as $key=>$value )
