@@ -129,3 +129,7 @@
 .select2-result-repository__forks, .select2-result-repository__stargazers {
     margin-right: 1em;
 }
+
+#modal_agregar_servicio .select2.select2-container .select2-selection {
+    margin-bottom: 0px!important;
+}

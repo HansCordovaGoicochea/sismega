@@ -151,6 +151,8 @@ class HTMLTemplateComprobanteElectronicoCore extends HTMLTemplate
             'PS_SHOP_NAME' => Configuration::get('PS_SHOP_NAME'),
             'PS_SHOP_RAZON_SOCIAL' => Configuration::get('PS_SHOP_RAZON_SOCIAL'),
             'PS_SHOP_RUC' => Configuration::get('PS_SHOP_RUC'),
+            'PS_SHOP_ADDR1' => Configuration::get('PS_SHOP_ADDR1'),
+            'PS_SHOP_PHONE' => Configuration::get('PS_SHOP_PHONE'),
             'order' => $this->order,
             'comprobante' => $this->comprobante,
             'order_order' => $order,

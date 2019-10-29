@@ -421,11 +421,32 @@ class AdminVenderControllerCore extends AdminController {
 
             foreach($productos as $key=>$product){
                 $prod = new Product((int)($product['id']), true, (int)($this->context->language->id));
-                $prod_update = $cart->updateQty((float)($product['quantity']), (int)($product['id']),null, false, 'up', 0 , new Shop((int)$cart->id_shop));
+                $impuesto_percentaje = (float)( 1 + ($prod->tax_rate / 100));
+
+                $default_lang = Configuration::get('PS_LANG_DEFAULT');
+                if ((int)($product['id']) === 0){
+                    $product_new = new Product();
+                    $product_new->name = [$default_lang => $product['title']];
+                    $product_new->link_rewrite = [$default_lang => Tools::link_rewrite($product['title'])];
+                    $product_new->price = round((float)$product['price'] / $impuesto_percentaje, 6);
+                    $product_new->quantity = $product['quantity'];
+                    $product_new->id_category = 2;
+                    $product_new->id_category_default = 2;
+                    $product_new->is_virtual=1;
+                    $product_new->state = 0;
+                    $product_new->add();
+                    StockAvailable::setQuantity((int)$product_new->id, 0, $product['quantity'], Context::getContext()->shop->id);
+                    $product_new->addToCategories(array(2));
+
+                    $prod = new Product((int)$product_new->id, true, (int)($this->context->language->id));
+                    $impuesto_percentaje = (float)( 1 + ($prod->tax_rate / 100));
+                }
+
+                $prod_update = $cart->updateQty((float)($product['quantity']), $prod->id,null, false, 'up', 0 , new Shop((int)$cart->id_shop));
 
                 //modificar el precio
                 SpecificPrice::deleteByIdCart((int)$id_cart, (int)$product['id'], 0);
-                $impuesto_percentaje = (float)( 1 + ($prod->tax_rate / 100));
+
                 if ($impuesto_percentaje > 0){
                     $specific_price = new SpecificPrice();
                     $specific_price->id_cart = (int)$id_cart;

@@ -548,6 +548,16 @@ var app_vender = new Vue({
 
             //tours
             fecha_tours: moment().format('YYYY-MM-DD'),
+
+            //modal servicio
+            //producto
+            product_name_modal: "",
+            cantidad_real_modal: 1,
+            precio_unitario_modal: 0,
+            es_servicio_modal: true,
+            //colaborador
+            id_colaborador_modal: 0,
+            colaborador_name_modal: "",
         };
     },
     ready: function() {
@@ -792,6 +802,55 @@ var app_vender = new Vue({
             }
 
         },
+        addItemModal(){
+            let self = this;
+            if (self.id_colaborador_modal  &&  self.product_name_modal){
+                // Increment total price
+                this.total += parseFloat(self.precio_unitario_modal);
+
+                let inCart = false;
+
+                // Add item if not already in the cart
+                if(! inCart){
+                    this.id_colaborador_general = self.id_colaborador_modal;
+                    this.colaborador_name_general = self.colaborador_name;
+                    this.cart.push({
+                        id: 0,
+                        title: self.product_name_modal,
+                        price: parseFloat(self.precio_unitario_modal),
+                        price_temporal: parseFloat(self.precio_unitario_modal),
+                        quantity: self.cantidad_real_modal,
+                        es_servicio: 1,
+                        cantidad_fisica: self.cantidad_real_modal,
+                        importe_linea: parseFloat(self.precio_unitario_modal) * parseFloat(self.cantidad_real_modal),
+                        importe_linea_temporal: parseFloat(self.precio_unitario_modal) * parseFloat(self.cantidad_real_modal),
+                        id_colaborador: self.id_colaborador_modal,
+                        colaborador_name: self.colaborador_name,
+                        fecha_tours: "",
+                    });
+                    $.growl.notice({ title: 'Prod. Agregado!', message: '', duration: 1000, location: 'br' });
+                    this.limpiarDatosAddModal();
+                    //actualizar monto de pago
+                    // this.pagos[0].monto = ps_round(this.total, 2);
+
+                    // }else{
+                    //     $.growl.error({ title: 'Alerta!', message: 'No hay stock', location: 'br' });
+                    // }
+
+                    this.refreshTotal();
+
+
+                }
+
+                // this.search = "";
+                // this.setFocus();
+            }else{
+                if (!self.id_colaborador_modal) {
+                    $.growl.error({title: 'Seleccione un colaborador!', message: '', duration: 1000, location: 'br'});
+                }
+            }
+
+        },
         limpiarDatosAdd(){
             let self = this;
             self.id_product = 0;
@@ -804,6 +863,24 @@ var app_vender = new Vue({
             self.es_servicio = false;
             // self.id_colaborador = 0;
             // self.colaborador_name = "";
+        },
+        limpiarDatosAddModal(){
+            let self = this;
+            self.id_product = 0;
+            self.product_name = "";
+
+            // $('#id_product').empty().trigger('change');
+
+            self.cantidad_real = 0;
+            self.precio_unitario = 0;
+            self.es_servicio = false;
+            // self.id_colaborador = 0;
+            // self.colaborador_name = "";
+
+            self.product_name_modal = "";
+            self.id_colaborador_modal = 0;
+            self.cantidad_real_modal = 1;
+            self.precio_unitario_modal = "";
         },
         changeCantidad(item){
             this.total = 0;
