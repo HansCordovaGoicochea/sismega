@@ -419,7 +419,7 @@ class AdminVenderControllerCore extends AdminController {
             Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'cart_cart_rule` WHERE `id_cart` = '.(int)$id_cart);
             Db::getInstance()->execute('DELETE FROM `'._DB_PREFIX_.'cart_product` WHERE `id_cart` = '.(int)$id_cart);
 
-            foreach($productos as $key=>$product){
+            foreach($productos as $key => &$product){
                 $prod = new Product((int)($product['id']), true, (int)($this->context->language->id));
                 $impuesto_percentaje = (float)( 1 + ($prod->tax_rate / 100));
 
@@ -434,19 +434,23 @@ class AdminVenderControllerCore extends AdminController {
                     $product_new->id_category_default = 2;
                     $product_new->is_virtual=1;
                     $product_new->state = 0;
+                    $product_new->active = 0;
                     $product_new->add();
                     StockAvailable::setQuantity((int)$product_new->id, 0, $product['quantity'], Context::getContext()->shop->id);
                     $product_new->addToCategories(array(2));
 
                     $prod = new Product((int)$product_new->id, true, (int)($this->context->language->id));
                     $impuesto_percentaje = (float)( 1 + ($prod->tax_rate / 100));
+
+                    $product['id'] = $product_new->id;
                 }
+
+
 
                 $prod_update = $cart->updateQty((float)($product['quantity']), $prod->id,null, false, 'up', 0 , new Shop((int)$cart->id_shop));
 
                 //modificar el precio
-                SpecificPrice::deleteByIdCart((int)$id_cart, (int)$product['id'], 0);
-
+                SpecificPrice::deleteByIdCart((int)$id_cart, (int)$prod->id, 0);
                 if ($impuesto_percentaje > 0){
                     $specific_price = new SpecificPrice();
                     $specific_price->id_cart = (int)$id_cart;
@@ -456,7 +460,7 @@ class AdminVenderControllerCore extends AdminController {
                     $specific_price->id_country = 0;
                     $specific_price->id_group = 0;
                     $specific_price->id_customer = (int)$this->context->customer->id;
-                    $specific_price->id_product = (int)$product['id'];
+                    $specific_price->id_product = (int)$prod->id;
                     $specific_price->id_product_attribute = 0;
                     $specific_price->price = round((float)$product['price'] / $impuesto_percentaje, 6);
                     $specific_price->from_quantity = 1;
@@ -469,6 +473,7 @@ class AdminVenderControllerCore extends AdminController {
                 }
 
             }
+            unset($product);
 
             $summary = $cart->getSummaryDetails($this->context->language->id,true);
             $total = (string) $summary['total_price'];
@@ -536,7 +541,7 @@ class AdminVenderControllerCore extends AdminController {
 
                 $ordeD = OrderDetail::getList($order->id);
                 foreach ($ordeD as $k => $val) {
-                    foreach(Tools::getValue('productos') as $key=>$product) {
+                    foreach($productos as $key=>$product) {
                         $oderDetalle = new OrderDetail((int)$val['id_order_detail']);
                         if ($oderDetalle->product_id === $product['id']){
 //                            $oderDetalle->product_name = $product['title'];
@@ -1291,6 +1296,7 @@ class AdminVenderControllerCore extends AdminController {
 		'.Shop::addSqlAssociation('product', 'p').'
 		LEFT JOIN `'._DB_PREFIX_.'product_lang` pl ON (pl.id_product = p.id_product AND pl.id_lang = '.(int)$context->language->id.Shop::addSqlRestrictionOnLang('pl').')
 		'.Product::sqlStock('p', 0).'
+		where p.state = 1 AND product_shop.active = 1
          GROUP BY p.id_product';
 
         $items = Db::getInstance()->executeS($sql);
