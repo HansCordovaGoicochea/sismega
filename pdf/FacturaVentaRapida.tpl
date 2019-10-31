@@ -14,40 +14,62 @@
     {assign var="numcaracteres" value=7-$caracteres}
     {*<thead>*}
     <tr>
-        <th style="text-align: left; font-size: 12px;"><strong>Ticket N° {$order->nro_ticket}</strong></th>
+        <th style="text-align: left; font-size: 10px;"><strong>NOTA DE VENTA N° {$order->nro_ticket}</strong></th>
     </tr>
     <tr>
         <th style="text-align: center">
             <strong>
-                <img src="{$logo}" style="width:5cm;height: 3cm;" />
+                <img src="{$logo}" style="width:5cm;height: 1.7cm;" />
             </strong>
         </th>
     </tr>
+    {assign var="ultimopago" value=0}
+    {assign var="vuelto" value=0}
+    {assign var="acumuladopago" value = 0}
+    {assign var="ultima_fecha" value = $order->date_add}
+
+    {foreach from=$order->getOrderPaymentCollection() item=payment}
+        {assign var="acumuladopago" value=$acumuladopago + $payment->amount}
+        {assign var="ultimopago" value=$payment->amount}
+        {assign var="vuelto" value=$payment->vuelto}
+        {assign var="ultima_fecha" value = $payment->date_add}
+    {/foreach}
+    {*    {d($ultima_fecha)}*}
+    {assign var="ultimopago" value=$ultimopago}
     {*</thead>*}
     <tr style="text-align: center">
         <td colspan="4">
             <span >{$PS_SHOP_NAME|upper}</span><br>
-            <span >{$address_shop->address1|upper}</span><br>
             <span>RUC: {$PS_SHOP_RUC}</span><br>
-            <span>Fecha: {$order->date_upd|date_format:"%d/%m/%Y %H:%m:%S"}</span>
+            <span >{$address_shop->address1|upper}</span><br>
+            <span >(076) 341876 / 970 029 128 / 994 595 104</span><br>
+
+            <!--<span>Fecha: {$order->date_upd|date_format:"%d/%m/%Y %H:%m:%S"}</span>-->
         </td>
+
+    </tr>
+    <tr>
+        <td style="border-top:1px dashed #000;"><strong>Fecha Emisión:</strong> {$ultima_fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
     </tr>
     <tr style="text-align: left">
-        <td colspan="4"><span>Nombre/R. Social: {if $customer->firstname}{$customer->firstname}{/if}</span><br><span>DNI/RUC: {if $customer->num_document}{$customer->num_document}{else}&nbsp;{/if}</span>{if $customer->direccion}<br><span>Direccion: {$customer->direccion}</span>{/if}</td>
+        <td colspan="4"><span><strong>Nombre/R. Social:</strong> {if $customer->firstname}{$customer->firstname}{/if}</span><br><span><strong>DNI/RUC:</strong> {if $customer->num_document}{$customer->num_document}{else}&nbsp;{/if}</span></td>
     </tr>
+    <!--<span>Direccion: {$customer->direccion}</span>-->
     <tr >
-        <td colspan="4" style="">
+        <td colspan="4" style="border-top:1px dashed #000;">
             <table width="100%">
                 <tr>
-                    <th style="text-align: center;" width="13%">Cant.</th>
-                    <th style="text-align: left;" width="60%">Prod.</th>
-                    <th style="text-align: center;" width="26%">Subtotal</th>
+                    <th style="text-align: center;" width="15%"><strong>CANT.</strong></th>
+                    <th style="text-align: center;" width="50%"><strong>DESCRIPCIÓN</strong></th>
+                    <th style="text-align: center;" width="15%"><strong>P.U.</strong></th>
+                    <th style="text-align: center;" width="20%"><strong>IMPOR.</strong></th>
                 </tr>
                 <!-- PRODUCTS -->
                 {foreach $order_details as $order_detail}
                     <tr>
                         <td style="text-align: center;">{$order_detail.product_quantity|round:2}</td>
                         <td style="text-align: left;">{$order_detail.product_name} {if $order_detail.fecha_tours != "0000-00-00"}{$order_detail.fecha_tours|date_format:"%d/%m/%Y"}{/if}</td>
+                        <td style="text-align: center;">{displayPrice currency=$order->id_currency price=$order_detail.unit_price_tax_incl|round:2}</td>
                         <td style="text-align: center;">{displayPrice currency=$order->id_currency price=$order_detail.total_price_tax_incl|round:2}</td>
                     </tr>
                 {/foreach}
@@ -77,23 +99,15 @@
         </td>
     </tr>
     <tr>
-        {assign var="ultimopago" value=0}
-        {assign var="vuelto" value=0}
-        {assign var="acumuladopago" value = 0}
-        {foreach from=$order->getOrderPaymentCollection() item=payment}
-            {assign var="acumuladopago" value=$acumuladopago + $payment->amount}
-            {assign var="ultimopago" value=$payment->amount}
-            {assign var="vuelto" value=$payment->vuelto}
-        {/foreach}
 
-        {assign var="ultimopago" value=$ultimopago}
         <td colspan="4" style="border-top: 1px dashed black;">
-            &nbsp;<br>Últ.Pagó: {displayPrice price=($ultimopago + $vuelto) currency=$order->id_currency}
+            &nbsp;<br>Último pago: {displayPrice price=($ultimopago + $vuelto) currency=$order->id_currency}
             &nbsp;&nbsp;Deuda: {displayPrice currency=$order->id_currency price=round($footer.total_paid_tax_incl - ($acumuladopago + $vuelto),2)}
             &nbsp;Pagado: {displayPrice currency=$order->id_currency price=round(($acumuladopago + $vuelto),2)}
         </td>
 
     </tr>
+    <br>
     <tr><td colspan="4">Colaborador(es): </td></tr>
     {foreach OrderDetail::getDeailtColaboradores($order->id) as $order_detail}
         <tr >
@@ -101,6 +115,7 @@
         </tr>
     {/foreach}
 
+    <br>
     <tr>
         <td style="text-align: center" colspan="4">
             <span><strong>¡GRACIAS POR SU PREFERENCIA!</strong></span><br>
