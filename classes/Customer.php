@@ -377,8 +377,8 @@ class CustomerCore extends ObjectModel
         return Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS('
             SELECT `id_customer`, `email`, `firstname`, `lastname`
             FROM `'._DB_PREFIX_.'customer`
-            WHERE 1 '.Shop::addSqlRestriction(Shop::SHARE_CUSTOMER).
-            ($onlyActive ? ' AND `active` = 1' : '').'
+            WHERE 1 AND `deleted` = 0 '.Shop::addSqlRestriction(Shop::SHARE_CUSTOMER).
+            ($onlyActive ? ' AND `active` = 1' : '').' 
             ORDER BY `id_customer` ASC'
         );
     }
@@ -1422,7 +1422,7 @@ class CustomerCore extends ObjectModel
         return Db::getInstance(_PS_USE_SQL_SLAVE_)->getRow('
             SELECT *
             FROM `'._DB_PREFIX_.'customer`
-            WHERE num_document = \''.$num_documento.'\'
+            WHERE num_document = \''.$num_documento.'\' AND `deleted` = 0
             ORDER BY `id_customer` ASC'
         );
     }
@@ -1440,7 +1440,7 @@ class CustomerCore extends ObjectModel
         $sql->leftJoin('tipodocumentolegal', 'tdl', 'tdl.`id_tipodocumentolegal` = c.`id_document`');
 
         $where = 'c.`firstname` LIKE \'%'.pSQL($query).'%\'
-		OR c.`num_document` LIKE \'%'.pSQL($query).'%\'';
+		OR c.`num_document` LIKE \'%'.pSQL($query).'%\' AND c.`deleted` = 0';
 
         $sql->orderBy('c.`firstname` ASC');
 
@@ -1463,7 +1463,7 @@ class CustomerCore extends ObjectModel
         $sql->join(Shop::addSqlAssociation('customer', 'c'));
         $sql->leftJoin('tipodocumentolegal', 'tdl', 'tdl.`id_tipodocumentolegal` = c.`id_document`');
 
-        $where = 'c.`num_document` = \''.pSQL($query).'\' AND c.`id_document` = '.$id_document;
+        $where = 'c.`num_document` = \''.pSQL($query).'\' AND c.`id_document` = '.$id_document. ' AND c.`deleted` = 0';
 
         $sql->orderBy('c.`firstname` ASC');
 

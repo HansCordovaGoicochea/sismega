@@ -1260,7 +1260,7 @@ class AdminVenderControllerCore extends AdminController {
                     $oderDetalle->id_colaborador = $product['id_colaborador'];
                     $oderDetalle->colaborador_name = $product['colaborador_name'];
                     $oderDetalle->es_servicio = (int)$product['es_servicio'];
-                    $oderDetalle->fecha_tours = (int)$product['fecha_tours'];
+                    $oderDetalle->fecha_tours = $product['fecha_tours'];
                     $oderDetalle->update();
                 }
             }

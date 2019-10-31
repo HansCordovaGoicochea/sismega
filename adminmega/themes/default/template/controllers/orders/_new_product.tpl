@@ -63,7 +63,7 @@
 {*				<div class="input-group-addon">*}
 {*					<i class="icon-search"></i>*}
 {*				</div>*}
-				<select class="form-control chosen" name="add_product[id_colaborador]" id="add_product_id_colaborador" disabled="disabled">
+				<select class="form-control chosen" name="add_product[id_colaborador]" id="add_product_id_colaborador">
 					<option value="0">- Seleccionar Colaborador -</option>
 					{foreach $colaboradores as $key => $colaborador}
 						<option value="{$colaborador.id_employee}" {if $order->id_colaborador == $colaborador.id_employee} selected {/if}>{$colaborador.name_employee}</option>
