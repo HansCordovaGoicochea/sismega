@@ -1272,7 +1272,8 @@ class AdminVenderControllerCore extends AdminController {
         die(json_encode(array(
             'success' => "ok",
             'result' => "Guardado",
-            'order' => $order
+            'order' => $order,
+            'link_venta' => $this->context->link->getAdminLink('AdminOrders').'&vieworder&id_order='.$order->id
         )));
 
     }
