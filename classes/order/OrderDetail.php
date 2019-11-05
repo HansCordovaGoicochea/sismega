@@ -905,7 +905,7 @@ where id_order = '.$id_order.' group by id_colaborador';
         $sql = 'select od.*, c.firstname as cliente, c.direccion, c.telefono_celular, c.num_document
 from tm_order_detail od INNER JOIN tm_orders o on (od.id_order = o.id_order)
 INNER JOIN tm_customer c on (o.id_customer = c.id_customer)
-where fecha_tours = "'.$fecha.'" AND od.product_id = '.$id_product;
+where fecha_tours = "'.$fecha.'" AND od.product_id = '.$id_product. ' AND o.current_state in (1, 2)';
 
         return Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql);
     }
