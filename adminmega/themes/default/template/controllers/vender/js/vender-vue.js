@@ -1398,69 +1398,75 @@ var app_vender = new Vue({
         },
         addProductos(order) {
             var self = this;
+            if (self.cart.length){
+                if (parseFloat(this.pagos[0].monto) > 0){
+                    $.ajax({
+                    type:"POST",
+                    url: url_ajax_vender,
+                    async: true,
+                    dataType: "json",
+                    data:{
+                        ajax: "1",
+                        token: token_vender,
+                        tab: "AdminVender",
+                        action : "AddProductOnOrder",
+                        order: order,
+                        productos: self.cart,
+                    },
+                    beforeSend: function(){
+                        self.guardandoEnviar = true;
+                        $('body').waitMe({
+                            effect: 'bounce',
+                            text: 'Guardando...',
+                            color: '#000',
+                            maxSize: '',
+                            textPos: 'vertical',
+                            fontSize: '',
+                            source: ''
+                        });
+                    },
+                    success: function (data) {
+                        self.guardandoEnviar = false;
+                        if (data.success === 'ok'){
+                            $.growl.notice({ title:data.result, message:'' });
+                            self.order = data.order;
+                            let html_buttons = '';
+                            if (self.perfil_empleado_vue !== 'Colaborador'){
+                                html_buttons += '<a class="btn btn-primary" style="margin: 5px;" target="_blank" href="'+data.link_venta+'">Venta</a>';
+                            }
 
-            $.ajax({
-                type:"POST",
-                url: url_ajax_vender,
-                async: true,
-                dataType: "json",
-                data:{
-                    ajax: "1",
-                    token: token_vender,
-                    tab: "AdminVender",
-                    action : "AddProductOnOrder",
-                    order: order,
-                    productos: self.cart,
-                },
-                beforeSend: function(){
-                    self.guardandoEnviar = true;
-                    $('body').waitMe({
-                        effect: 'bounce',
-                        text: 'Guardando...',
-                        color: '#000',
-                        maxSize: '',
-                        textPos: 'vertical',
-                        fontSize: '',
-                        source: ''
-                    });
-                },
-                success: function (data) {
-                    self.guardandoEnviar = false;
-                    if (data.success === 'ok'){
-                        $.growl.notice({ title:data.result, message:'' });
-                        self.order = data.order;
-                        let html_buttons = '';
-                        if (self.perfil_empleado_vue !== 'Colaborador'){
-                            html_buttons += '<a class="btn btn-primary" style="margin: 5px;" target="_blank" href="'+data.link_venta+'">Venta</a>';
+
+                            html_buttons += '<input type="button" class="btn btn-warning" value="Ticket Venta - '+data.order.nro_ticket+'" style="margin: 5px;" onclick="windowPrintAche(\'PDFtoTicket\')">';
+                            let iframes = '<iframe id="PDFtoTicket" src="'+data.order.ruta_ticket_normal+'" style="display: none;"></iframe>';
+
+                            $('#alertmessage').after(iframes);
+                            $('.alertmessage').append(html_buttons);
+                            $('.alertmessage').css('display', 'grid');
+
+                            self.cart = [];
+                            self.is_active_tab_pago = false;
+                            $('#left-panel').css('pointer-events', 'none');
+                            $('.sales-add-edit-payments').css('pointer-events', 'none');
+                            $('.tabla_lista_venta').css('pointer-events', 'none');
+                        }else{
+                            $.growl.error({ title:data.result, message:'' })
                         }
 
 
-                        html_buttons += '<input type="button" class="btn btn-warning" value="Ticket Venta - '+data.order.nro_ticket+'" style="margin: 5px;" onclick="windowPrintAche(\'PDFtoTicket\')">';
-                        let iframes = '<iframe id="PDFtoTicket" src="'+data.order.ruta_ticket_normal+'" style="display: none;"></iframe>';
-
-                        $('#alertmessage').after(iframes);
-                        $('.alertmessage').append(html_buttons);
-                        $('.alertmessage').css('display', 'grid');
-
-                        self.cart = [];
-                        self.is_active_tab_pago = false;
-                        $('#left-panel').css('pointer-events', 'none');
-                        $('.sales-add-edit-payments').css('pointer-events', 'none');
-                        $('.tabla_lista_venta').css('pointer-events', 'none');
-                    }else{
-                        $.growl.error({ title:data.result, message:'' })
+                    },
+                    error: function (error) {
+                        // console.log(error);
+                    },
+                    complete: function (data) {
+                        $('body').waitMe('hide');
                     }
-
-
-                },
-                error: function (error) {
-                    // console.log(error);
-                },
-                complete: function (data) {
-                    $('body').waitMe('hide');
+                });
+                }else{
+                    $.growl.error({ title: 'El pago debe ser mayor a cero!', message: '',});
                 }
-            });
-
+            } else{
+                $.growl.error({ title: 'No existen productos para vender!', message: '',});
+            }
         },
     },
     mounted() {
