@@ -60,7 +60,8 @@
                 <thead>
                 <tr>
                     <th class="text-center" style="text-align: left!important;">Cliente</th>
-                    <th class="text-center" style="text-align: center!important;">Dirección</th>
+                    <th class="text-center" style="text-align: left!important;">Dirección</th>
+                    <th class="text-center" style="text-align: center!important;">Celular</th>
                     <th class="text-center" style="text-align: center!important;">Cantidad</th>
                     <th class="text-center" style="text-align: center!important;">Importe</th>
                 </tr>
@@ -70,8 +71,9 @@
                     {assign var="sum" value= 0}
                     {foreach $order_detail as $item}
                         <tr>
-                            <td class="text-center">{$item.cliente}</td>
-                            <td class="text-center" style="text-align: center!important;">{$item.direccion}</td>
+                            <td class="text-center" style="text-align: left!important;">{$item.cliente} ({$item.num_document})</td>
+                            <td class="text-center" style="text-align: left!important;">{$item.direccion}</td>
+                            <td class="text-center" style="text-align: center!important;">{$item.telefono_celular}</td>
                             <td class="text-center" style="text-align: center!important;">{$item.product_quantity}</td>
                             <td class="text-center" style="text-align: center!important;">{displayPrice currency=1 price=$item.total_price_tax_incl|round:2}</td>
                         </tr>
@@ -81,7 +83,7 @@
                 </tbody>
                 <tfood>
                     <tr>
-                        <td colspan="2" class="text-right" style="text-align: right!important;">Total: </td>
+                        <td colspan="3" class="text-right" style="text-align: right!important;">Total: </td>
                         <td class="text-center" style="text-align: center!important;">{$cant}</td>
                         <td class="text-center" style="text-align: center!important;">{displayPrice currency=1 price=$sum|round:2}</td>
                     </tr>

@@ -939,106 +939,110 @@ var app_vender = new Vue({
             // console.log(self.cart)
             // if (self.cart.length && self.nombre_legal && self.numero_doc){
             if (self.cart.length){
-                $.ajax({
-                            type:"POST",
-                            url: url_ajax_vender,
-                            async: true,
-                            dataType: "json",
-                            data:{
-                                ajax: "1",
-                                token: token_vender,
-                                action : "realizarVenta",
-                                productos: self.cart,
-                                tipo_venta: tipo_venta,
-                                hasComprobante: self.hasComprobante,
-                                tipo_comprobante: self.tipo_comprobante,
-                                id_customer: self.id_customer,
-                                fecha_nacimiento: self.fecha_nacimiento,
-                                cb_tipo_documento: self.cb_tipo_documento,
-                                celular_cliente: self.celular_cliente,
-                                nombre_legal: self.nombre_legal,
-                                numero_doc: self.numero_doc,
-                                direccion_cliente: self.direccion_cliente,
-                                array_pagos: self.pagos,
-                                puntos_cliente: self.puntos_cliente,
-                                id_colaborador_general: self.id_colaborador_general,
-                                colaborador_name_general: self.colaborador_name_general,
-                            },
-                            beforeSend: function(){
-                                self.guardandoEnviar = true;
-                                $('body').waitMe({
-                                    effect: 'bounce',
-                                    text: 'Guardando...',
-                                    color: '#000',
-                                    maxSize: '',
-                                    textPos: 'vertical',
-                                    fontSize: '',
-                                    source: ''
-                                });
-                            },
-                            success: function (data) {
-                                self.guardandoEnviar = false;
-                                if (data.result === 'error'){
-                                    $.each(data.msg, function (index, value) {
-                                        self.mostrar_adventencia = true;
-                                        self.msg_errores.push({
-                                            msg: value,
-                                        })
-                                    })
-                                }
-                                if (data.response === 'ok'){
-                                    // if (data.reload === 'ok'){
-                                    //     location.reload();
-                                    // }
-                                    self.order = data.order;
-                                    let html_buttons = '';
-
-                                    if (self.perfil_empleado_vue !== 'Colaborador'){
-                                        html_buttons += '<a class="btn btn-primary" style="margin: 5px;" target="_blank" href="'+data.link_venta+'">Venta</a>';
-                                    }
-
-
-                                    html_buttons += '<input type="button" class="btn btn-warning" value="Ticket Venta - '+data.order.nro_ticket+'" style="margin: 5px;" onclick="windowPrintAche(\'PDFtoTicket\')">';
-                                    let iframes = '<iframe id="PDFtoTicket" src="'+data.order.ruta_ticket_normal+'" style="display: none;"></iframe>';
-
-                                    $('#alertmessage').after(iframes);
-                                    $('.alertmessage').append(html_buttons);
-                                    $('.alertmessage').css('display', 'grid');
-
-                                    $("#toolbar_caja_soles").fadeOut("slow", function() {
-                                        $(this).text(data.caja_actual.monto_operaciones).fadeIn("slow");
+                if (parseFloat(this.pagos[0].monto) > 0){
+                    $.ajax({
+                                type:"POST",
+                                url: url_ajax_vender,
+                                async: true,
+                                dataType: "json",
+                                data:{
+                                    ajax: "1",
+                                    token: token_vender,
+                                    action : "realizarVenta",
+                                    productos: self.cart,
+                                    tipo_venta: tipo_venta,
+                                    hasComprobante: self.hasComprobante,
+                                    tipo_comprobante: self.tipo_comprobante,
+                                    id_customer: self.id_customer,
+                                    fecha_nacimiento: self.fecha_nacimiento,
+                                    cb_tipo_documento: self.cb_tipo_documento,
+                                    celular_cliente: self.celular_cliente,
+                                    nombre_legal: self.nombre_legal,
+                                    numero_doc: self.numero_doc,
+                                    direccion_cliente: self.direccion_cliente,
+                                    array_pagos: self.pagos,
+                                    puntos_cliente: self.puntos_cliente,
+                                    id_colaborador_general: self.id_colaborador_general,
+                                    colaborador_name_general: self.colaborador_name_general,
+                                },
+                                beforeSend: function(){
+                                    self.guardandoEnviar = true;
+                                    $('body').waitMe({
+                                        effect: 'bounce',
+                                        text: 'Guardando...',
+                                        color: '#000',
+                                        maxSize: '',
+                                        textPos: 'vertical',
+                                        fontSize: '',
+                                        source: ''
                                     });
-
-                                    self.cart = [];
-                                    self.is_active_tab_pago = false;
-                                    $('#left-panel').css('pointer-events', 'none');
-                                    $('.sales-add-edit-payments').css('pointer-events', 'none');
-                                    $('.tabla_lista_venta').css('pointer-events', 'none');
-
-                                    if (self.hasComprobante){
-                                        $.growl.warning({
-                                            title: '',
-                                            message: 'Generando y Enviando XML del comprobante Por Favor espere Un Momento...!',
-                                            fixed: true,
-                                            size: "large",
-                                            duration: 5000,
-                                            location: 'tl'
-                                        });
-                                        self.enviarComprobanteSunat();
+                                },
+                                success: function (data) {
+                                    self.guardandoEnviar = false;
+                                    if (data.result === 'error'){
+                                        $.each(data.msg, function (index, value) {
+                                            self.mostrar_adventencia = true;
+                                            self.msg_errores.push({
+                                                msg: value,
+                                            })
+                                        })
                                     }
-                                }
+                                    if (data.response === 'ok'){
+                                        // if (data.reload === 'ok'){
+                                        //     location.reload();
+                                        // }
+                                        self.order = data.order;
+                                        let html_buttons = '';
 
-                            },
-                            error: function (error) {
-                                console.log(error);
-                            },
-                            complete: function(data) {
-                                // location.reload();
-                                $('body').waitMe('hide');
+                                        if (self.perfil_empleado_vue !== 'Colaborador'){
+                                            html_buttons += '<a class="btn btn-primary" style="margin: 5px;" target="_blank" href="'+data.link_venta+'">Venta</a>';
+                                        }
 
-                            },
-                        });
-            }else{
+
+                                        html_buttons += '<input type="button" class="btn btn-warning" value="Ticket Venta - '+data.order.nro_ticket+'" style="margin: 5px;" onclick="windowPrintAche(\'PDFtoTicket\')">';
+                                        let iframes = '<iframe id="PDFtoTicket" src="'+data.order.ruta_ticket_normal+'" style="display: none;"></iframe>';
+
+                                        $('#alertmessage').after(iframes);
+                                        $('.alertmessage').append(html_buttons);
+                                        $('.alertmessage').css('display', 'grid');
+
+                                        $("#toolbar_caja_soles").fadeOut("slow", function() {
+                                            $(this).text(data.caja_actual.monto_operaciones).fadeIn("slow");
+                                        });
+
+                                        self.cart = [];
+                                        self.is_active_tab_pago = false;
+                                        $('#left-panel').css('pointer-events', 'none');
+                                        $('.sales-add-edit-payments').css('pointer-events', 'none');
+                                        $('.tabla_lista_venta').css('pointer-events', 'none');
+
+                                        if (self.hasComprobante){
+                                            $.growl.warning({
+                                                title: '',
+                                                message: 'Generando y Enviando XML del comprobante Por Favor espere Un Momento...!',
+                                                fixed: true,
+                                                size: "large",
+                                                duration: 5000,
+                                                location: 'tl'
+                                            });
+                                            self.enviarComprobanteSunat();
+                                        }
+                                    }
+
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                },
+                                complete: function(data) {
+                                    // location.reload();
+                                    $('body').waitMe('hide');
+
+                                },
+                            });
+                }else{
+                    $.growl.error({ title: 'El pago debe ser mayor a cero!', message: '',});
+                }
+            } else{
                 $.growl.error({ title: 'No existen productos para vender!', message: '',});
             }
         },
