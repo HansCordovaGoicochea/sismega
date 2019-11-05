@@ -898,7 +898,16 @@ from tm_order_detail
 where id_order = '.$id_order.' group by id_colaborador';
 
         return Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql);
+    }
 
+    public static function getDeailtServiciosByDate($fecha, $id_product){
+
+        $sql = 'select od.*, c.firstname as cliente, c.direccion
+from tm_order_detail od INNER JOIN tm_orders o on (od.id_order = o.id_order)
+INNER JOIN tm_customer c on (o.id_customer = c.id_customer)
+where fecha_tours = "'.$fecha.'" AND od.product_id = '.$id_product;
+
+        return Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql);
     }
 
 }
