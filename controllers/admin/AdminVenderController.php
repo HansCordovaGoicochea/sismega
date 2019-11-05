@@ -1141,6 +1141,31 @@ class AdminVenderControllerCore extends AdminController {
 
         $crear_cart = false;
         foreach($productos as $key=>$product){
+            $prod = new Product((int)($product['id']), true, (int)($this->context->language->id));
+            $impuesto_percentaje = (float)( 1 + ($prod->tax_rate / 100));
+
+            $default_lang = Configuration::get('PS_LANG_DEFAULT');
+            if ((int)($product['id']) === 0){
+                $product_new = new Product();
+                $product_new->name = [$default_lang => $product['title']];
+                $product_new->link_rewrite = [$default_lang => Tools::link_rewrite($product['title'])];
+                $product_new->price = round((float)$product['price'] / $impuesto_percentaje, 6);
+                $product_new->quantity = $product['quantity'];
+                $product_new->id_category = 2;
+                $product_new->id_category_default = 2;
+                $product_new->is_virtual=1;
+                $product_new->state = 0;
+                $product_new->active = 0;
+                $product_new->add();
+                StockAvailable::setQuantity((int)$product_new->id, 0, $product['quantity'], Context::getContext()->shop->id);
+                $product_new->addToCategories(array(2));
+
+                $prod = new Product((int)$product_new->id, true, (int)($this->context->language->id));
+                $impuesto_percentaje = (float)( 1 + ($prod->tax_rate / 100));
+
+                $product['id'] = $product_new->id;
+            }
+
             if(in_array($product['id'], $childids)) {
                 //el producto esta en la orden
 
@@ -1153,7 +1178,7 @@ class AdminVenderControllerCore extends AdminController {
                 $cart_product_quantity = (float)$product['quantity'] + (float)$value2['product_quantity'];
 
                 $product_price_tax_incl = Tools::ps_round($product['price'], 2);
-                $product_price_tax_excl = Tools::ps_round(((float)($product['price'])/1.18), 2);
+                $product_price_tax_excl = Tools::ps_round(((float)($product['price'])/$impuesto_percentaje), 2);
                 $total_products_tax_incl = $product_price_tax_incl * $cart_product_quantity;
                 $total_products_tax_excl = $product_price_tax_excl * $cart_product_quantity;
 
@@ -1211,9 +1236,33 @@ class AdminVenderControllerCore extends AdminController {
 
                 // Save new cart
                 $cart->add();
+                $id_cart = $cart->id;
 
-                $productToAdd = new Product((int)($product['id']), true, (int)($this->context->language->id));
-                $updateQuantity = $cart->updateQty((int)($product['quantity']), (int)($product['id']),null, false, 'up', 0 , new Shop((int)$cart->id_shop));
+                $cart->updateQty((int)($product['quantity']), (int)($product['id']),null, false, 'up', 0 , new Shop((int)$cart->id_shop));
+
+                //modificar el precio
+                SpecificPrice::deleteByIdCart((int)$id_cart, (int)$prod->id, 0);
+                if ($impuesto_percentaje > 0){
+                    $specific_price = new SpecificPrice();
+                    $specific_price->id_cart = (int)$id_cart;
+                    $specific_price->id_shop = 0;
+                    $specific_price->id_shop_group = 0;
+                    $specific_price->id_currency = 0;
+                    $specific_price->id_country = 0;
+                    $specific_price->id_group = 0;
+                    $specific_price->id_customer = (int)$this->context->customer->id;
+                    $specific_price->id_product = (int)$prod->id;
+                    $specific_price->id_product_attribute = 0;
+                    $specific_price->price = round((float)$product['price'] / $impuesto_percentaje, 6);
+                    $specific_price->from_quantity = 1;
+                    $specific_price->reduction = 0;
+                    $specific_price->reduction_type = 'amount';
+                    $specific_price->reduction_tax = PS_TAX_EXC;
+                    $specific_price->from = '0000-00-00 00:00:00';
+                    $specific_price->to = '0000-00-00 00:00:00';
+                    $specific_price->add();
+                }
+
                 // Create Order detail information
                 // Total method
                 $total_method = Cart::BOTH_WITHOUT_SHIPPING;
