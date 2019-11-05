@@ -1174,6 +1174,31 @@ class AdminVenderControllerCore extends AdminController {
                 $productToAdd = new Product((int)($product['id']), true, (int)($this->context->language->id));
                 $updateQuantity = $cart->updateQty((int)($product['quantity']), (int)($product['id']),null, false, 'up', 0 , new Shop((int)$cart->id_shop));
 
+                $id_cart = $order->id_cart;
+                //modificar el precio
+                SpecificPrice::deleteByIdCart((int)$id_cart, (int)$prod->id, 0);
+                if ($impuesto_percentaje > 0){
+                    $specific_price = new SpecificPrice();
+                    $specific_price->id_cart = (int)$id_cart;
+                    $specific_price->id_shop = 0;
+                    $specific_price->id_shop_group = 0;
+                    $specific_price->id_currency = 0;
+                    $specific_price->id_country = 0;
+                    $specific_price->id_group = 0;
+                    $specific_price->id_customer = (int)$this->context->customer->id;
+                    $specific_price->id_product = (int)$prod->id;
+                    $specific_price->id_product_attribute = 0;
+                    $specific_price->price = round((float)$product['price'] / $impuesto_percentaje, 6);
+                    $specific_price->from_quantity = 1;
+                    $specific_price->reduction = 0;
+                    $specific_price->reduction_type = 'amount';
+                    $specific_price->reduction_tax = PS_TAX_EXC;
+                    $specific_price->from = '0000-00-00 00:00:00';
+                    $specific_price->to = '0000-00-00 00:00:00';
+                    $specific_price->add();
+                }
+
+
                 $order_detail2 = new OrderDetail((int)$value2['id_order_detail']);
                 $cart_product_quantity = (float)$product['quantity'] + (float)$value2['product_quantity'];
 
