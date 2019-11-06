@@ -1040,7 +1040,7 @@ var app_vender = new Vue({
                                 },
                             });
                 }else{
-                    $.growl.error({ title: 'Debe colocar un número en pago!', message: '',});
+                    $.growl.error({ title: 'Ingresar pago!', message: '',});
                 }
             } else{
                 $.growl.error({ title: 'No existen productos para vender!', message: '',});
@@ -1462,7 +1462,7 @@ var app_vender = new Vue({
                     }
                 });
                 }else{
-                    $.growl.error({ title: 'Debe colocar un número en pago!!', message: '',});
+                    $.growl.error({ title: 'Ingresar pago!!', message: '',});
                 }
             } else{
                 $.growl.error({ title: 'No existen productos para vender!', message: '',});
