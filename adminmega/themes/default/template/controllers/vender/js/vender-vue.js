@@ -489,7 +489,7 @@ var app_vender = new Vue({
                 tipo: 'efectivo',
                 name_pay: "Pago en Efectivo",
                 fecha: $.datepicker.formatDate('yy-mm-dd', new Date()),
-                monto: 0,
+                monto: "",
             }],
             total: 0,
             active_codigo_barras: 0,
@@ -939,7 +939,7 @@ var app_vender = new Vue({
             // console.log(self.cart)
             // if (self.cart.length && self.nombre_legal && self.numero_doc){
             if (self.cart.length){
-                if (parseFloat(this.pagos[0].monto) > 0){
+                if (this.pagos[0].monto !== ""){
                     $.ajax({
                                 type:"POST",
                                 url: url_ajax_vender,
@@ -1040,7 +1040,7 @@ var app_vender = new Vue({
                                 },
                             });
                 }else{
-                    $.growl.error({ title: 'El pago debe ser mayor a cero!', message: '',});
+                    $.growl.error({ title: 'Debe colocar un número en pago!', message: '',});
                 }
             } else{
                 $.growl.error({ title: 'No existen productos para vender!', message: '',});
@@ -1399,7 +1399,7 @@ var app_vender = new Vue({
         addProductos(order) {
             var self = this;
             if (self.cart.length){
-                if (parseFloat(this.pagos[0].monto) > 0){
+                if (this.pagos[0].monto !== ""){
                     $.ajax({
                     type:"POST",
                     url: url_ajax_vender,
@@ -1462,7 +1462,7 @@ var app_vender = new Vue({
                     }
                 });
                 }else{
-                    $.growl.error({ title: 'El pago debe ser mayor a cero!', message: '',});
+                    $.growl.error({ title: 'Debe colocar un número en pago!!', message: '',});
                 }
             } else{
                 $.growl.error({ title: 'No existen productos para vender!', message: '',});

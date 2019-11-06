@@ -186,7 +186,7 @@
                                                                         <datepicker v-model="pago.fecha"></datepicker>
                                                                     </div>
                                                                     <span class="input-group-text" style="border-radius: 0px; margin-right: -1px;">S/</span>
-                                                                    <input type="number" id="inputCash" placeholder="0.00" class="form-control text-center" v-model.number="pago.monto">
+                                                                    <input type="number" id="inputCash" placeholder="0.00" class="form-control text-center" v-model="pago.monto">
                                                                     <div v-if="pagos.length > 1 && ind > 0" class="input-group-append">
                                                                         <button type="button" class="btn btn-sm btn-primary" @click="borrarPago(pago)">
                                                                             <i class="fa fa-trash"></i>
