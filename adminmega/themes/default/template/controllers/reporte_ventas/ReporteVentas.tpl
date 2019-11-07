@@ -191,16 +191,16 @@
                     </script>
                     <table width="100%" class="table" id="tabla_datos_apertura_{$aperturas_caja.id_pos_arqueoscaja}">
                         <thead>
-                            <tr>
-                                <th style="text-align: left;" width="15%">Fecha</th>
-                                <th style="text-align: left; " width="30%">Producto</th>
-                                <th style="text-align: center; " width="10%">Cant</th>
-                                <th style="text-align: center;  " width="15%">Importe</th>
-                                <th style="text-align: center; " width="15%">Pagos</th>
-                                <th style="text-align: center; " width="15%">Deuda</th>
-    {*                            <th style="text-align: center; font-weight: bold;" width="20%">Precio</th>*}
-    {*                            <th style="text-align: center; font-weight: bold;" width="20%">SubTotal</th>*}
-                            </tr>
+                        <tr>
+                            <th style="text-align: left;" width="15%">Fecha</th>
+                            <th style="text-align: left; " width="30%">Producto</th>
+                            <th style="text-align: center; " width="10%">Cant</th>
+                            <th style="text-align: center;  " width="15%">Importe</th>
+                            <th style="text-align: center; " width="15%">Pagos</th>
+                            <th style="text-align: center; " width="15%">Deuda</th>
+                            {*                            <th style="text-align: center; font-weight: bold;" width="20%">Precio</th>*}
+                            {*                            <th style="text-align: center; font-weight: bold;" width="20%">SubTotal</th>*}
+                        </tr>
                         </thead>
                         <tbody>
                         <!-- PRODUCTS -->
@@ -213,57 +213,57 @@
                                     </strong>
                                 </td>
                             </tr>
-                        {foreach from=$aperturas_caja.efectivo item=datos_fila}
-                            {if isset($datos_fila.id_order) && (int)$datos_fila.id_order > 0}
-                                <tr class="success">
-                                    <td style="text-align: left;" colspan="6">
-                                        <strong>
-                                           Venta {$datos_fila.nro_comprobante} - {$datos_fila.cliente}
-                                        </strong>
+                            {foreach from=$aperturas_caja.efectivo item=datos_fila}
+                                {if isset($datos_fila.id_order) && (int)$datos_fila.id_order > 0}
+                                    <tr class="success">
+                                        <td style="text-align: left;" colspan="6">
+                                            <strong>
+                                                Venta {$datos_fila.nro_comprobante} - {$datos_fila.cliente}
+                                            </strong>
+                                        </td>
+                                    </tr>
+
+                                    {assign var='total' value=0}
+                                    {assign var='nro_operaciones' value=0}
+                                    {assign var='suma_efectivo' value = $suma_efectivo + $datos_fila.pagos}
+                                    {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
+
+                                        {assign var='total' value=$total+$detail.total_price_tax_incl}
+                                        {assign var='nro_operaciones' value=$nro_operaciones+1}
+                                        {if $detail.product_quantity > 0}
+                                            <tr >
+                                                <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
+                                                <td style="text-align: left;">{$detail.product_name}  {$detail.fecha_tours}</td>
+                                                <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
+                                                <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
+                                                <td style="text-align: center;">- -</td>
+                                                {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.unit_price_tax_incl|round:2}</td>*}
+                                                {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>*}
+                                            </tr>
+                                        {/if}
+
+                                    {/foreach}
+
+                                    <tr class="warning">
+                                        <td style="text-align: right;"></td>
+                                        <td style="text-align: right;"></td>
+                                        <td style="text-align: right;">Totales</td>
+                                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
+                                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$datos_fila.pagos|round:2}</td>
+                                        <td style="text-align: center;">S/ 0.00</td>
+                                        {*                                    <td style="text-align: right;"></td>*}
+                                    </tr>
+                                {/if}
+                                {foreachelse}
+                                <tr>
+                                    <td class="list-empty" colspan="6">
+                                        <div class="list-empty-msg">
+                                            <i class="icon-warning-sign list-empty-icon"></i>
+                                            Ningún registro encontrado
+                                        </div>
                                     </td>
                                 </tr>
-
-                                {assign var='total' value=0}
-                                {assign var='nro_operaciones' value=0}
-                                {assign var='suma_efectivo' value = $suma_efectivo + $datos_fila.pagos}
-                                {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
-
-                                    {assign var='total' value=$total+$detail.total_price_tax_incl}
-                                    {assign var='nro_operaciones' value=$nro_operaciones+1}
-                                    {if $detail.product_quantity > 0}
-                                        <tr >
-                                            <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                            <td style="text-align: left;">{$detail.product_name}</td>
-                                            <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
-                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
-                                            <td style="text-align: center;">- -</td>
-{*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.unit_price_tax_incl|round:2}</td>*}
-{*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>*}
-                                        </tr>
-                                    {/if}
-
-                                {/foreach}
-
-                                <tr class="warning">
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;">Totales</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$datos_fila.pagos|round:2}</td>
-                                    <td style="text-align: center;">S/ 0.00</td>
-{*                                    <td style="text-align: right;"></td>*}
-                                </tr>
-                            {/if}
-                            {foreachelse}
-                            <tr>
-                                <td class="list-empty" colspan="6">
-                                    <div class="list-empty-msg">
-                                        <i class="icon-warning-sign list-empty-icon"></i>
-                                        Ningún registro encontrado
-                                    </div>
-                                </td>
-                            </tr>
-                        {/foreach}
+                            {/foreach}
                         {/if}
                         {assign var='suma_visa' value = 0}
                         {if count($aperturas_caja.visa)}
@@ -274,56 +274,56 @@
                                     </strong>
                                 </td>
                             </tr>
-                        {foreach from=$aperturas_caja.visa item=datos_fila}
-                            {if isset($datos_fila.id_order) && (int)$datos_fila.id_order > 0}
-                                <tr class="success">
-                                    <td style="text-align: left; " colspan="6">
-                                        <strong>
-                                            Venta {$datos_fila.nro_comprobante} - {$datos_fila.cliente}
-                                        </strong>
+                            {foreach from=$aperturas_caja.visa item=datos_fila}
+                                {if isset($datos_fila.id_order) && (int)$datos_fila.id_order > 0}
+                                    <tr class="success">
+                                        <td style="text-align: left; " colspan="6">
+                                            <strong>
+                                                Venta {$datos_fila.nro_comprobante} - {$datos_fila.cliente}
+                                            </strong>
+                                        </td>
+                                    </tr>
+
+                                    {assign var='total' value=0}
+                                    {assign var='nro_operaciones' value=0}
+                                    {assign var='suma_visa' value = $suma_visa + $datos_fila.pagos}
+                                    {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
+                                        {assign var='total' value=$total+$detail.total_price_tax_incl}
+                                        {assign var='nro_operaciones' value=$nro_operaciones+1}
+                                        {if $detail.product_quantity > 0}
+                                            <tr >
+                                                <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
+                                                <td style="text-align: left;">{$detail.product_name}  {$detail.fecha_tours}</td>
+                                                <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
+                                                <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
+                                                <td style="text-align: center;">- -</td>
+                                                {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.unit_price_tax_incl|round:2}</td>*}
+                                                {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>*}
+                                            </tr>
+                                        {/if}
+
+                                    {/foreach}
+
+                                    <tr class="warning">
+                                        <td style="text-align: right;"></td>
+                                        <td style="text-align: right;"></td>
+                                        <td style="text-align: right;">Totales</td>
+                                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
+                                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$datos_fila.pagos|round:2}</td>
+                                        <td style="text-align: center;">S/ 0.00</td>
+                                        {*                                    <td style="text-align: right;"></td>*}
+                                    </tr>
+                                {/if}
+                                {foreachelse}
+                                <tr>
+                                    <td class="list-empty" colspan="6">
+                                        <div class="list-empty-msg">
+                                            <i class="icon-warning-sign list-empty-icon"></i>
+                                            Ningún registro encontrado
+                                        </div>
                                     </td>
                                 </tr>
-
-                                {assign var='total' value=0}
-                                {assign var='nro_operaciones' value=0}
-                                {assign var='suma_visa' value = $suma_visa + $datos_fila.pagos}
-                                {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
-                                    {assign var='total' value=$total+$detail.total_price_tax_incl}
-                                    {assign var='nro_operaciones' value=$nro_operaciones+1}
-                                    {if $detail.product_quantity > 0}
-                                        <tr >
-                                            <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                            <td style="text-align: left;">{$detail.product_name}</td>
-                                            <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
-                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
-                                            <td style="text-align: center;">- -</td>
-{*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.unit_price_tax_incl|round:2}</td>*}
-{*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>*}
-                                        </tr>
-                                    {/if}
-
-                                {/foreach}
-
-                                <tr class="warning">
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;">Totales</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$datos_fila.pagos|round:2}</td>
-                                    <td style="text-align: center;">S/ 0.00</td>
-{*                                    <td style="text-align: right;"></td>*}
-                                </tr>
-                            {/if}
-                            {foreachelse}
-                            <tr>
-                                <td class="list-empty" colspan="6">
-                                    <div class="list-empty-msg">
-                                        <i class="icon-warning-sign list-empty-icon"></i>
-                                        Ningún registro encontrado
-                                    </div>
-                                </td>
-                            </tr>
-                        {/foreach}
+                            {/foreach}
                         {/if}
                         {assign var='suma_izipay' value = 0}
                         {if count($aperturas_caja.izipay)}
@@ -334,57 +334,57 @@
                                     </strong>
                                 </td>
                             </tr>
-                        {foreach from=$aperturas_caja.izipay item=datos_fila}
-                            {if isset($datos_fila.id_order) && (int)$datos_fila.id_order > 0}
-                                <tr class="success">
-                                    <td style="text-align: left;" colspan="6">
-                                        <strong>
-                                            Venta {$datos_fila.nro_comprobante} - {$datos_fila.cliente}
-                                        </strong>
+                            {foreach from=$aperturas_caja.izipay item=datos_fila}
+                                {if isset($datos_fila.id_order) && (int)$datos_fila.id_order > 0}
+                                    <tr class="success">
+                                        <td style="text-align: left;" colspan="6">
+                                            <strong>
+                                                Venta {$datos_fila.nro_comprobante} - {$datos_fila.cliente}
+                                            </strong>
+                                        </td>
+                                    </tr>
+
+                                    {assign var='total' value=0}
+                                    {assign var='nro_operaciones' value=0}
+                                    {assign var='suma_izipay' value = $suma_izipay + $datos_fila.pagos}
+                                    {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
+
+                                        {assign var='total' value=$total+$detail.total_price_tax_incl}
+                                        {assign var='nro_operaciones' value=$nro_operaciones+1}
+                                        {if $detail.product_quantity > 0}
+                                            <tr >
+                                                <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
+                                                <td style="text-align: left;">{$detail.product_name} {$detail.fecha_tours}</td>
+                                                <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
+                                                <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
+                                                <td style="text-align: center;">- -</td>
+                                                {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.unit_price_tax_incl|round:2}</td>*}
+                                                {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>*}
+                                            </tr>
+                                        {/if}
+
+                                    {/foreach}
+
+                                    <tr class="warning">
+                                        <td style="text-align: right;"></td>
+                                        <td style="text-align: right;"></td>
+                                        <td style="text-align: right;">Totales</td>
+                                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
+                                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$datos_fila.pagos|round:2}</td>
+                                        <td style="text-align: center;"> - - </td>
+                                        {*                                    <td style="text-align: right;"></td>*}
+                                    </tr>
+                                {/if}
+                                {foreachelse}
+                                <tr>
+                                    <td class="list-empty" colspan="6">
+                                        <div class="list-empty-msg">
+                                            <i class="icon-warning-sign list-empty-icon"></i>
+                                            Ningún registro encontrado
+                                        </div>
                                     </td>
                                 </tr>
-
-                                {assign var='total' value=0}
-                                {assign var='nro_operaciones' value=0}
-                                {assign var='suma_izipay' value = $suma_izipay + $datos_fila.pagos}
-                                {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
-
-                                    {assign var='total' value=$total+$detail.total_price_tax_incl}
-                                    {assign var='nro_operaciones' value=$nro_operaciones+1}
-                                    {if $detail.product_quantity > 0}
-                                        <tr >
-                                            <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                            <td style="text-align: left;">{$detail.product_name}</td>
-                                            <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
-                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
-                                            <td style="text-align: center;">- -</td>
-                                            {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.unit_price_tax_incl|round:2}</td>*}
-                                            {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>*}
-                                        </tr>
-                                    {/if}
-
-                                {/foreach}
-
-                                <tr class="warning">
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;">Totales</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$datos_fila.pagos|round:2}</td>
-                                    <td style="text-align: center;"> - - </td>
-                                    {*                                    <td style="text-align: right;"></td>*}
-                                </tr>
-                            {/if}
-                            {foreachelse}
-                            <tr>
-                                <td class="list-empty" colspan="6">
-                                    <div class="list-empty-msg">
-                                        <i class="icon-warning-sign list-empty-icon"></i>
-                                        Ningún registro encontrado
-                                    </div>
-                                </td>
-                            </tr>
-                        {/foreach}
+                            {/foreach}
                         {/if}
                         {assign var='suma_porcobrar' value = 0}
                         {if count($aperturas_caja.porcobrar)}
@@ -395,59 +395,59 @@
                                     </strong>
                                 </td>
                             </tr>
-                        {foreach from=$aperturas_caja.porcobrar item=datos_fila}
-                            {if isset($datos_fila.id_order) && (int)$datos_fila.id_order > 0}
+                            {foreach from=$aperturas_caja.porcobrar item=datos_fila}
+                                {if isset($datos_fila.id_order) && (int)$datos_fila.id_order > 0}
 
-                                <tr class="success">
-                                    <td style="text-align: left;" colspan="6">
-                                        <strong>
-                                            Venta {$datos_fila.nro_comprobante} - {$datos_fila.cliente}
-                                        </strong>
+                                    <tr class="success">
+                                        <td style="text-align: left;" colspan="6">
+                                            <strong>
+                                                Venta {$datos_fila.nro_comprobante} - {$datos_fila.cliente}
+                                            </strong>
+                                        </td>
+                                    </tr>
+
+                                    {assign var='total' value=0}
+                                    {assign var='nro_operaciones' value=0}
+
+                                    {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
+
+                                        {assign var='total' value=$total+$detail.total_price_tax_incl}
+                                        {assign var='nro_operaciones' value=$nro_operaciones+1}
+                                        {assign var='suma_porcobrar' value = $suma_porcobrar + ($total - $datos_fila.pagos)}
+                                        {if $detail.product_quantity > 0}
+                                            <tr >
+                                                <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
+                                                <td style="text-align: left;">{$detail.product_name} {$detail.fecha_tours}</td>
+                                                <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
+                                                <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
+                                                <td style="text-align: center;">- -</td>
+                                                {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.unit_price_tax_incl|round:2}</td>*}
+                                                {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>*}
+                                            </tr>
+                                        {/if}
+
+                                    {/foreach}
+
+                                    <tr class="warning">
+                                        <td style="text-align: right;"></td>
+                                        <td style="text-align: right;"></td>
+                                        <td style="text-align: right;">Totales</td>
+                                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
+                                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$datos_fila.pagos|round:2}</td>
+                                        <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total - $datos_fila.pagos|round:2}</td>
+                                        {*                                    <td style="text-align: right;"></td>*}
+                                    </tr>
+                                {/if}
+                                {foreachelse}
+                                <tr>
+                                    <td class="list-empty" colspan="6">
+                                        <div class="list-empty-msg">
+                                            <i class="icon-warning-sign list-empty-icon"></i>
+                                            Ningún registro encontrado
+                                        </div>
                                     </td>
                                 </tr>
-
-                                {assign var='total' value=0}
-                                {assign var='nro_operaciones' value=0}
-
-                                {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
-
-                                    {assign var='total' value=$total+$detail.total_price_tax_incl}
-                                    {assign var='nro_operaciones' value=$nro_operaciones+1}
-                                    {assign var='suma_porcobrar' value = $suma_porcobrar + ($total - $datos_fila.pagos)}
-                                    {if $detail.product_quantity > 0}
-                                        <tr >
-                                            <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                            <td style="text-align: left;">{$detail.product_name}</td>
-                                            <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
-                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
-                                            <td style="text-align: center;">- -</td>
-                                            {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.unit_price_tax_incl|round:2}</td>*}
-                                            {*                                            <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>*}
-                                        </tr>
-                                    {/if}
-
-                                {/foreach}
-
-                                <tr class="warning">
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;">Totales</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$datos_fila.pagos|round:2}</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total - $datos_fila.pagos|round:2}</td>
-                                    {*                                    <td style="text-align: right;"></td>*}
-                                </tr>
-                            {/if}
-                            {foreachelse}
-                            <tr>
-                                <td class="list-empty" colspan="6">
-                                    <div class="list-empty-msg">
-                                        <i class="icon-warning-sign list-empty-icon"></i>
-                                        Ningún registro encontrado
-                                    </div>
-                                </td>
-                            </tr>
-                        {/foreach}
+                            {/foreach}
                         {/if}
                         {assign var='suma_egresos' value = 0}
                         {if count($aperturas_caja.egresos)}
@@ -460,33 +460,33 @@
                             </tr>
 
 
-                                {assign var='total' value=0}
-                                {assign var='nro_operaciones' value=0}
-                                {foreach from=$aperturas_caja.egresos item='detail'}
-                                    {assign var='suma_egresos' value = $suma_egresos + $detail.monto}
-                                    {assign var='total' value=$total+$detail.monto}
-                                    {assign var='nro_operaciones' value=$nro_operaciones+1}
-                                    <tr >
-                                        <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                        <td style="text-align: left;">{$detail.descripcion}</td>
-                                        <td style="text-align: center;">- -</td>
-                                        <td style="text-align: center;">-{displayPrice currency=1 price=$detail.monto|round:2}</td>
-                                        <td style="text-align: center;">- -</td>
-                                    </tr>
-                                {/foreach}
-
-                                <tr class="warning">
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;">Totales</td>
-                                    <td style="text-align: center;">-{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
-                                    <td style="text-align: center;"> - - </td>
-                                    <td style="text-align: center;"> - - </td>
-                                    {*                                    <td style="text-align: right;"></td>*}
+                            {assign var='total' value=0}
+                            {assign var='nro_operaciones' value=0}
+                            {foreach from=$aperturas_caja.egresos item='detail'}
+                                {assign var='suma_egresos' value = $suma_egresos + $detail.monto}
+                                {assign var='total' value=$total+$detail.monto}
+                                {assign var='nro_operaciones' value=$nro_operaciones+1}
+                                <tr >
+                                    <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
+                                    <td style="text-align: left;">{$detail.descripcion}</td>
+                                    <td style="text-align: center;">- -</td>
+                                    <td style="text-align: center;">-{displayPrice currency=1 price=$detail.monto|round:2}</td>
+                                    <td style="text-align: center;">- -</td>
                                 </tr>
+                            {/foreach}
+
+                            <tr class="warning">
+                                <td style="text-align: right;"></td>
+                                <td style="text-align: right;"></td>
+                                <td style="text-align: right;">Totales</td>
+                                <td style="text-align: center;">-{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
+                                <td style="text-align: center;"> - - </td>
+                                <td style="text-align: center;"> - - </td>
+                                {*                                    <td style="text-align: right;"></td>*}
+                            </tr>
 
                         {/if}
-                        
+
                         {assign var='suma_ingresos' value = 0}
                         {if count($aperturas_caja.ingresos)}
                             <tr class="info">
@@ -498,33 +498,33 @@
                             </tr>
 
 
-                                {assign var='total' value=0}
-                                {assign var='nro_operaciones' value=0}
-                                {foreach from=$aperturas_caja.ingresos item='detail'}
-                                    {assign var='suma_ingresos' value = $suma_ingresos + $detail.monto}
-                                    {assign var='total' value=$total+$detail.monto}
-                                    {assign var='nro_operaciones' value=$nro_operaciones+1}
-                                    <tr >
-                                        <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                        <td style="text-align: left;">{$detail.descripcion}</td>
-                                        <td style="text-align: center;">- -</td>
-                                        <td style="text-align: center;">{displayPrice currency=1 price=$detail.monto|round:2}</td>
-                                        <td style="text-align: center;">- -</td>
-                                    </tr>
-                                {/foreach}
-
-                                <tr class="warning">
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;">Totales</td>
-                                    <td style="text-align: center;">-{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
-                                    <td style="text-align: center;"> - - </td>
-                                    <td style="text-align: center;"> - - </td>
-                                    {*                                    <td style="text-align: right;"></td>*}
+                            {assign var='total' value=0}
+                            {assign var='nro_operaciones' value=0}
+                            {foreach from=$aperturas_caja.ingresos item='detail'}
+                                {assign var='suma_ingresos' value = $suma_ingresos + $detail.monto}
+                                {assign var='total' value=$total+$detail.monto}
+                                {assign var='nro_operaciones' value=$nro_operaciones+1}
+                                <tr >
+                                    <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
+                                    <td style="text-align: left;">{$detail.descripcion}</td>
+                                    <td style="text-align: center;">- -</td>
+                                    <td style="text-align: center;">{displayPrice currency=1 price=$detail.monto|round:2}</td>
+                                    <td style="text-align: center;">- -</td>
                                 </tr>
+                            {/foreach}
+
+                            <tr class="warning">
+                                <td style="text-align: right;"></td>
+                                <td style="text-align: right;"></td>
+                                <td style="text-align: right;">Totales</td>
+                                <td style="text-align: center;">-{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
+                                <td style="text-align: center;"> - - </td>
+                                <td style="text-align: center;"> - - </td>
+                                {*                                    <td style="text-align: right;"></td>*}
+                            </tr>
 
                         {/if}
-                        
+
                         {assign var='suma_adelantos' value = 0}
                         {if count($aperturas_caja.adelantos)}
                             <tr class="info">
@@ -536,30 +536,30 @@
                             </tr>
 
 
-                                {assign var='total' value=0}
-                                {assign var='nro_operaciones' value=0}
-                                {foreach from=$aperturas_caja.adelantos item='detail'}
-                                    {assign var='suma_adelantos' value = $suma_adelantos + $detail.adelanto}
-                                    {assign var='total' value=$total+$detail.adelanto}
-                                    {assign var='nro_operaciones' value=$nro_operaciones+1}
-                                    <tr >
-                                        <td style="text-align: left;">{$detail.date_upd|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                        <td style="text-align: left;">{$detail.product_name}</td>
-                                        <td style="text-align: center;">- -</td>
-                                        <td style="text-align: center;">{displayPrice currency=1 price=$detail.adelanto|round:2}</td>
-                                        <td style="text-align: center;">- -</td>
-                                    </tr>
-                                {/foreach}
-
-                                <tr class="warning">
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;"></td>
-                                    <td style="text-align: right;">Totales</td>
-                                    <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
-                                    <td style="text-align: center;"> - - </td>
-                                    <td style="text-align: center;"> - - </td>
-                                    {*                                    <td style="text-align: right;"></td>*}
+                            {assign var='total' value=0}
+                            {assign var='nro_operaciones' value=0}
+                            {foreach from=$aperturas_caja.adelantos item='detail'}
+                                {assign var='suma_adelantos' value = $suma_adelantos + $detail.adelanto}
+                                {assign var='total' value=$total+$detail.adelanto}
+                                {assign var='nro_operaciones' value=$nro_operaciones+1}
+                                <tr >
+                                    <td style="text-align: left;">{$detail.date_upd|date_format:"%d/%m/%Y %I:%M %p"}</td>
+                                    <td style="text-align: left;">{$detail.product_name}</td>
+                                    <td style="text-align: center;">- -</td>
+                                    <td style="text-align: center;">{displayPrice currency=1 price=$detail.adelanto|round:2}</td>
+                                    <td style="text-align: center;">- -</td>
                                 </tr>
+                            {/foreach}
+
+                            <tr class="warning">
+                                <td style="text-align: right;"></td>
+                                <td style="text-align: right;"></td>
+                                <td style="text-align: right;">Totales</td>
+                                <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$total|round:2}</td>
+                                <td style="text-align: center;"> - - </td>
+                                <td style="text-align: center;"> - - </td>
+                                {*                                    <td style="text-align: right;"></td>*}
+                            </tr>
 
                         {/if}
                         <tr class="warning">

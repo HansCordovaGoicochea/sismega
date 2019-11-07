@@ -1440,7 +1440,7 @@ class CustomerCore extends ObjectModel
         $sql->leftJoin('tipodocumentolegal', 'tdl', 'tdl.`id_tipodocumentolegal` = c.`id_document`');
 
         $where = 'c.`firstname` LIKE \'%'.pSQL($query).'%\'
-		OR c.`num_document` LIKE \'%'.pSQL($query).'%\' AND c.`deleted` = 0';
+		OR c.`num_document` LIKE \'%'.pSQL($query).'%\' AND c.`deleted` = 0 AND c.`active` = 1';
 
         $sql->orderBy('c.`firstname` ASC');
 
@@ -1463,7 +1463,7 @@ class CustomerCore extends ObjectModel
         $sql->join(Shop::addSqlAssociation('customer', 'c'));
         $sql->leftJoin('tipodocumentolegal', 'tdl', 'tdl.`id_tipodocumentolegal` = c.`id_document`');
 
-        $where = 'c.`num_document` = \''.pSQL($query).'\' AND c.`id_document` = '.$id_document. ' AND c.`deleted` = 0';
+        $where = 'c.`num_document` = \''.pSQL($query).'\' AND c.`id_document` = '.$id_document. ' AND c.`deleted` = 0  AND c.`active` = 1';
 
         $sql->orderBy('c.`firstname` ASC');
 

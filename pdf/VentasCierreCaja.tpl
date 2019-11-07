@@ -56,7 +56,7 @@
                                 {if $detail.product_quantity > 0}
                                     <tr >
                                         <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                        <td style="text-align: left;">{$detail.product_name}</td>
+                                        <td style="text-align: left;">{$detail.product_name} {$detail.fecha_tours}</td>
                                         <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
                                         <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
                                         <td style="text-align: center;">- -</td>
@@ -117,7 +117,7 @@
                                 {if $detail.product_quantity > 0}
                                     <tr >
                                         <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                        <td style="text-align: left;">{$detail.product_name}</td>
+                                        <td style="text-align: left;">{$detail.product_name} {$detail.fecha_tours}</td>
                                         <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
                                         <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
                                         <td style="text-align: center;">- -</td>
@@ -178,7 +178,7 @@
                                 {if $detail.product_quantity > 0}
                                     <tr >
                                         <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                        <td style="text-align: left;">{$detail.product_name}</td>
+                                        <td style="text-align: left;">{$detail.product_name} {$detail.fecha_tours}</td>
                                         <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
                                         <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
                                         <td style="text-align: center;">- -</td>
@@ -239,7 +239,7 @@
                                 {if $detail.product_quantity > 0}
                                     <tr >
                                         <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
-                                        <td style="text-align: left;">{$detail.product_name}</td>
+                                        <td style="text-align: left;">{$detail.product_name} {$detail.fecha_tours}</td>
                                         <td style="text-align: center;">{$detail.product_quantity|round:2}</td>
                                         <td style="text-align: center;">{displayPrice currency=$datos_fila.id_currency price=$detail.total_price_tax_incl|round:2}</td>
                                         <td style="text-align: center;">- -</td>

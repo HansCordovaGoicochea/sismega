@@ -2673,7 +2673,7 @@ IFNULL(sum(amount), 0) as pagos
     {
 //        d($id_caja);
         $sql =
-            'select product_name, product_quantity, unit_price_tax_incl, total_price_tax_incl, o.id_currency, o.id_employee, "venta" as venta, IF (po.numero_comprobante  != "", po.fecha_envio_comprobante, o.date_add) as fecha
+            'select product_name, product_quantity, unit_price_tax_incl, total_price_tax_incl, o.id_currency, o.id_employee, "venta" as venta, IF (po.numero_comprobante  != "", po.fecha_envio_comprobante, o.date_add) as fecha, od.fecha_tours
 FROM tm_orders o LEFT JOIN tm_order_detail od
   on o.id_order = od.id_order LEFT JOIN tm_pos_ordercomprobantes po ON (po.id_order = o.id_order)
 WHERE o.id_order = '.$id_order.' AND o.id_shop = '.Context::getContext()->shop->id.'
