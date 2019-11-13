@@ -626,7 +626,7 @@ class AdminResumenDiarioControllerCore extends AdminController
                 $rutas['pass_firma'] = $objCerti->clave_certificado;
                 $rutas['ruta_ws'] = $objCerti->web_service_sunat;
 
-                $resp_cdr = ProcesarComprobante::consultar_envio_ticket_resumen($objCerti->user_sunat, $objCerti->pass_sunat, $objResumenDiario->identificador_resumen_diario, $rutas['nombre_archivo'], $rutas['ruta_cdr'], $rutas['ruta_ws']);
+                $resp_cdr = ProcesarComprobante::consultar_envio_ticket_resumen($objCerti->user_sunat, $objCerti->pass_sunat, $objResumenDiario->nro_ticket, $rutas['nombre_archivo'], $rutas['ruta_cdr'], $rutas['ruta_ws']);
 
                 $objResumenDiario->cod_sunat = $resp_cdr['cod_sunat'];
                 $objResumenDiario->mensaje_cdr = $resp_cdr['msj_sunat'];

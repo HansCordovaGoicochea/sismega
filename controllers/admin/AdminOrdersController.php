@@ -232,9 +232,9 @@ class AdminOrdersControllerCore extends AdminController
             $this->context->customer = new Customer($order->id_customer);
         }
 
-//        $this->bulk_actions = array(
-//            'updateOrderStatus' => array('text' => $this->trans('Change Order Status', array(), 'Admin.Orderscustomers.Feature'), 'icon' => 'icon-refresh')
-//        );
+        $this->bulk_actions = array(
+            'updateOrderStatus' => array('text' => $this->trans('Cambiar estado a la venta', array(), 'Admin.Orderscustomers.Feature'), 'icon' => 'icon-refresh')
+        );
     }
 
     public function displayDescargar_xmlLink($token = null, $id)
@@ -1437,9 +1437,9 @@ class AdminOrdersControllerCore extends AdminController
                     $filename_zip = $RUC."-".$tipo_comprobante."-".$serie."-".$numeracion;
 
                     if ($objComprobante->tipo_documento_electronico == "NotaCredito"){
-                        $url_cdr = 'archivos_sunat/notacredito/'.$RUC.'/R-'.$filename_zip.".zip";
+                        $url_cdr = 'archivos_sunat/notacredito/'.$RUC.'/cdr/R-'.$filename_zip.".zip";
                     }else{
-                        $url_cdr = 'archivos_sunat/'.$RUC.'/R-'.$filename_zip.".zip";
+                        $url_cdr = 'archivos_sunat/'.$RUC.'/cdr/R-'.$filename_zip.".zip";
                     }
                     if (!file_exists($url_cdr)) {
                         // recibir la respuesta que te da SUNAT
@@ -1482,13 +1482,13 @@ class AdminOrdersControllerCore extends AdminController
                     zip_close($zip);
 
                     if ($objComprobante->tipo_documento_electronico == "NotaCredito"){
-                        $url = 'archivos_sunat/notacredito/'.$RUC.'/R-'.$filename_zip.".zip";
-                        $url_xml = 'archivos_sunat/notacredito/'.$RUC.'/'.$filename_zip.".zip";
+                        $url = 'archivos_sunat/notacredito/'.$RUC.'/cdr/R-'.$filename_zip.".zip";
+                        $url_xml = 'archivos_sunat/notacredito/'.$RUC.'/xml/'.$filename_zip.".zip";
                         $objComprobante->ruta_cdr = $url;
                         $objComprobante->ruta_xml = $url_xml;
                     }else{
-                        $url = 'archivos_sunat/'.$RUC.'/R-'.$filename_zip.".zip";
-                        $url_xml = 'archivos_sunat/'.$RUC.'/'.$filename_zip.".zip";
+                        $url = 'archivos_sunat/'.$RUC.'/cdr/R-'.$filename_zip.".zip";
+                        $url_xml = 'archivos_sunat/'.$RUC.'/xml/'.$filename_zip.".zip";
                         $objComprobante->ruta_cdr = $url;
                         $objComprobante->ruta_xml = $url_xml;
                     }
