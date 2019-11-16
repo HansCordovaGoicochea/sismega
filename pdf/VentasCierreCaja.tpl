@@ -49,8 +49,9 @@
 
                             {assign var='total' value=0}
                             {assign var='nro_operaciones' value=0}
+                            {assign var='suma_efectivo' value = $suma_efectivo + $datos_fila.pagos}
                             {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
-                                {assign var='suma_efectivo' value = $suma_efectivo + $detail.total_price_tax_incl}
+{*                                {assign var='suma_efectivo' value = $suma_efectivo + $detail.total_price_tax_incl}*}
                                 {assign var='total' value=$total+$detail.total_price_tax_incl}
                                 {assign var='nro_operaciones' value=$nro_operaciones+1}
                                 {if $detail.product_quantity > 0}
@@ -110,8 +111,9 @@
 
                             {assign var='total' value=0}
                             {assign var='nro_operaciones' value=0}
+                            {assign var='suma_visa' value = $suma_visa + $datos_fila.pagos}
                             {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
-                                {assign var='suma_visa' value = $suma_visa + $detail.total_price_tax_incl}
+{*                                {assign var='suma_visa' value = $suma_visa + $detail.total_price_tax_incl}*}
                                 {assign var='total' value=$total+$detail.total_price_tax_incl}
                                 {assign var='nro_operaciones' value=$nro_operaciones+1}
                                 {if $detail.product_quantity > 0}
@@ -171,8 +173,9 @@
 
                             {assign var='total' value=0}
                             {assign var='nro_operaciones' value=0}
+                            {assign var='suma_izipay' value = $suma_izipay + $datos_fila.pagos}
                             {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
-                                {assign var='suma_izipay' value = $suma_izipay + $detail.total_price_tax_incl}
+{*                                {assign var='suma_izipay' value = $suma_izipay + $detail.total_price_tax_incl}*}
                                 {assign var='total' value=$total+$detail.total_price_tax_incl}
                                 {assign var='nro_operaciones' value=$nro_operaciones+1}
                                 {if $detail.product_quantity > 0}
@@ -233,7 +236,7 @@
                             {assign var='total' value=0}
                             {assign var='nro_operaciones' value=0}
                             {foreach from=Order::getDetailsOrdersDateFromDateTO((int)$datos_fila.id_order) item='detail'}
-                                {assign var='suma_porcobrar' value = $suma_porcobrar + $detail.pagos}
+{*                                {assign var='suma_porcobrar' value = $suma_porcobrar + $detail.pagos}*}
                                 {assign var='total' value=$total+$detail.total_price_tax_incl}
                                 {assign var='nro_operaciones' value=$nro_operaciones+1}
                                 {if $detail.product_quantity > 0}
@@ -249,7 +252,7 @@
                                 {/if}
 
                             {/foreach}
-
+                            {assign var='suma_porcobrar' value = $suma_porcobrar + ($total - $datos_fila.pagos)}
                             <tr class="warning">
                                 <td style="text-align: right;"></td>
                                 <td style="text-align: right;"></td>
