@@ -413,7 +413,7 @@
 
                                         {assign var='total' value=$total+$detail.total_price_tax_incl}
                                         {assign var='nro_operaciones' value=$nro_operaciones+1}
-                                        {assign var='suma_porcobrar' value = $suma_porcobrar + ($total - $datos_fila.pagos)}
+
                                         {if $detail.product_quantity > 0}
                                             <tr >
                                                 <td style="text-align: left;">{$detail.fecha|date_format:"%d/%m/%Y %I:%M %p"}</td>
@@ -427,7 +427,7 @@
                                         {/if}
 
                                     {/foreach}
-
+                                    {assign var='suma_porcobrar' value = $suma_porcobrar + ($total - $datos_fila.pagos)}
                                     <tr class="warning">
                                         <td style="text-align: right;"></td>
                                         <td style="text-align: right;"></td>
