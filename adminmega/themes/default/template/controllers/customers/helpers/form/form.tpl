@@ -198,6 +198,9 @@
 				}else{
 					$('#customer_form_submit_btn').attr('disabled', false);
 				}
+
+
+				traerDatosSunat();
 			});
 		});
 
