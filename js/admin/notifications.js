@@ -38,7 +38,6 @@ $(document).ready(function () {
     });
 
     $('body').on('click', function (e) {
-
         if (!$('#notification.dropdown').is(e.target)
             && $('#notification.dropdown').has(e.target).length === 0
             && $('.open').has(e.target).length === 0
