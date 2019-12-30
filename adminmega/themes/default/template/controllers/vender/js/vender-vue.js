@@ -398,7 +398,7 @@ Vue.component('datepicker', {
             dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true,
-            yearRange: "-100:+0", // last hundred years
+            // yearRange: "-100:+0", // last hundred years
             onSelect: function(dateText) {
                 self.$emit('input', dateText);
             },
