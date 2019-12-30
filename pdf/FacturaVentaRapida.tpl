@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 
     <title>Document</title>
 </head>
@@ -42,7 +42,7 @@
             <span >{$PS_SHOP_NAME|upper}</span><br>
             <span>RUC: {$PS_SHOP_RUC}</span><br>
             <span >{$address_shop->address1|upper}</span><br>
-            <span >(076) 341876 / 970 029 128 / 994 595 104</span><br>
+            <span >(076) 341876 / 979 776 115 / 994 595 104</span><br>
 
             <!--<span>Fecha: {$order->date_upd|date_format:"%d/%m/%Y %H:%m:%S"}</span>-->
         </td>
@@ -62,7 +62,7 @@
                     <th style="text-align: center;" width="15%"><strong>CANT.</strong></th>
                     <th style="text-align: center;" width="50%"><strong>DESCRIPCIÓN</strong></th>
                     <th style="text-align: center;" width="15%"><strong>P.U.</strong></th>
-                    <th style="text-align: center;" width="20%"><strong>IMPOR.</strong></th>
+                    <th style="text-align: center;" width="20%"><strong>IMPORT.</strong></th>
                 </tr>
                 <!-- PRODUCTS -->
                 {foreach $order_details as $order_detail}
@@ -101,8 +101,8 @@
     <tr>
 
         <td colspan="4" style="border-top: 1px dashed black;">
-            &nbsp;<br>Último pago: {displayPrice price=($ultimopago + $vuelto) currency=$order->id_currency}
-            &nbsp;&nbsp;Deuda: {displayPrice currency=$order->id_currency price=round($footer.total_paid_tax_incl - ($acumuladopago + $vuelto),2)}
+            &nbsp;<br>Últ. pago: {displayPrice price=($ultimopago + $vuelto) currency=$order->id_currency}
+            &nbsp;&nbsp;Deuda: {if round($footer.total_paid_tax_incl - ($acumuladopago + $vuelto),2) > 0}{displayPrice currency=$order->id_currency price=round($footer.total_paid_tax_incl - ($acumuladopago + $vuelto),2)}{else}S/ 0.00{/if}
             &nbsp;Pagado: {displayPrice currency=$order->id_currency price=round(($acumuladopago + $vuelto),2)}
         </td>
 
@@ -117,7 +117,9 @@
 
     <br>
     <tr>
+
         <td style="text-align: center" colspan="4">
+            <span><strong>NOTA: Estar 15 minutos antes de la hora.</strong></span><br>
             <span><strong>¡GRACIAS POR SU PREFERENCIA!</strong></span><br>
         </td>
     </tr>
